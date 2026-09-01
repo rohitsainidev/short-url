@@ -1,0 +1,72 @@
+/* ===================================================
+   PROFESSIONAL SCROLL REVEAL ANIMATIONS
+   GPU-Accelerated, Staggered, Smooth Cubic-Bezier
+   =================================================== */
+
+/* Base Reveal - Slide Up */
+.reveal,
+.reveal-up {
+    opacity: 0;
+    transform: translate3d(0, 45px, 0);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+/* Slide Left */
+.reveal-left {
+    opacity: 0;
+    transform: translate3d(-50px, 0, 0);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+/* Slide Right */
+.reveal-right {
+    opacity: 0;
+    transform: translate3d(50px, 0, 0);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+/* Zoom In / Scale */
+.reveal-zoom {
+    opacity: 0;
+    transform: scale(0.9) translate3d(0, 30px, 0);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+/* Active State when in Viewport */
+.reveal.revealed,
+.reveal-up.revealed,
+.reveal-left.revealed,
+.reveal-right.revealed,
+.reveal-zoom.revealed {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Stagger Delays for Cards & Grids */
+.delay-1 { transition-delay: 0.1s !important; }
+.delay-2 { transition-delay: 0.2s !important; }
+.delay-3 { transition-delay: 0.3s !important; }
+.delay-4 { transition-delay: 0.4s !important; }
+.delay-5 { transition-delay: 0.5s !important; }
+.delay-6 { transition-delay: 0.6s !important; }
+
+/* Section Heading Reveal Effect */
+.section-heading-reveal {
+    opacity: 0;
+    transform: translate3d(0, 35px, 0);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-heading-reveal.revealed {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}

@@ -1,0 +1,251 @@
+/* =========================================================
+   AUTHENTIC DEVELOPER-FIRST SAAS ABOUT SECTION
+   (Linear / Dub.co / Stripe Standard)
+========================================================= */
+
+.about-section {
+    position: relative;
+    width: 100%;
+    padding: 100px 0 90px;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.about-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Heading */
+.about-heading {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 55px;
+}
+
+.about-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 16px;
+    margin-bottom: 16px;
+    border-radius: 20px;
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.28);
+    color: #c084fc;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.about-heading h2 {
+    margin: 0 0 14px;
+    color: #ffffff;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    line-height: 1.2;
+}
+
+.about-heading h2 span {
+    background: linear-gradient(135deg, #a855f7, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.about-heading p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 15.5px;
+    line-height: 1.7;
+}
+
+/* 2-Column Grid */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 36px;
+    align-items: center;
+}
+
+/* Left Terminal Card */
+.about-terminal-card {
+    background: rgba(10, 10, 24, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(108, 60, 224, 0.15);
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 7px;
+}
+
+.terminal-dots .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.terminal-dots .dot.red { background: #ff5f56; }
+.terminal-dots .dot.yellow { background: #ffbd2e; }
+.terminal-dots .dot.green { background: #27c93f; }
+
+.terminal-title {
+    font-size: 12.5px;
+    font-family: monospace;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.terminal-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #34d399;
+    letter-spacing: 0.8px;
+}
+
+.terminal-body {
+    padding: 24px 22px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13.5px;
+    line-height: 1.8;
+    background: rgba(6, 6, 16, 0.6);
+}
+
+.code-line {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.code-comment { color: rgba(255, 255, 255, 0.35); font-style: italic; }
+.code-keyword { color: #f472b6; font-weight: 600; }
+.code-var { color: #60a5fa; }
+.code-func { color: #c084fc; font-weight: 600; }
+.code-num { color: #fbbf24; }
+
+/* Metrics Grid inside terminal */
+.terminal-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.metric-val {
+    font-size: 16px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 2px;
+}
+
+.metric-lbl {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.45);
+    font-weight: 500;
+}
+
+/* Right Feature Column */
+.about-features-col {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.about-feat-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(16px);
+    transition: all 0.25s ease;
+}
+
+.about-feat-item:hover {
+    background: rgba(168, 85, 247, 0.07);
+    border-color: rgba(168, 85, 247, 0.25);
+    transform: translateX(4px);
+}
+
+.about-feat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    color: #c084fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.about-feat-item:hover .about-feat-icon {
+    background: linear-gradient(135deg, #6c3ce0, #a855f7);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(108, 60, 224, 0.4);
+}
+
+.about-feat-content h4 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.about-feat-content p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .about-heading h2 {
+        font-size: 32px;
+    }
+}

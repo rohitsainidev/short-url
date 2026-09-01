@@ -1,0 +1,788 @@
+/* =========================================================
+   SHORT URL — POLISHED CLEAN SIDEBAR
+   Modern Dark / Purple Glassmorphism (No White Highlights)
+========================================================= */
+
+:root {
+    --sidebar-width: 210px;
+    --sidebar-mini-width: 64px;
+    --sidebar-bg: rgba(10, 10, 24, 0.94);
+    --primary-gradient: linear-gradient(135deg, #6c3ce0, #a855f7);
+    --primary-glow: rgba(168, 85, 247, 0.3);
+    --primary-color: #a855f7;
+    --border-glass: rgba(255, 255, 255, 0.06);
+    --border-active: rgba(168, 85, 247, 0.3);
+    --text-primary: #f3f4f6;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.35);
+    --bg-nav-hover: rgba(168, 85, 247, 0.08);
+    --bg-nav-active: rgba(108, 60, 224, 0.16);
+}
+
+/* =========================================================
+   SIDEBAR CONTAINER
+========================================================= */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--sidebar-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-right: 1px solid var(--border-glass);
+    padding: 20px 10px 18px 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   SIDEBAR HEADER & LOGO
+========================================================= */
+.sidebar-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 0 4px;
+    gap: 4px;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 0;
+    padding: 0;
+    text-decoration: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.2s ease;
+    min-width: 0;
+}
+
+.sidebar-logo:focus,
+.sidebar-logo:active {
+    outline: none;
+}
+
+.sidebar-logo:hover {
+    opacity: 0.92;
+}
+
+.sidebar-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-gradient);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+    box-shadow: 0 3px 12px rgba(108, 60, 224, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+.sidebar-logo-text {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.4px;
+    white-space: nowrap;
+}
+
+.sidebar-logo-text span {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Sidebar Collapse / Tuck Button (Zero Jitter) */
+.sidebar-collapse-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+    outline: none !important;
+}
+
+.sidebar-collapse-btn:hover {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: #a855f7;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+}
+
+/* =========================================================
+   SIDEBAR NAVIGATION
+========================================================= */
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.sidebar-nav .nav-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 10px 8px 4px;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+    display: block;
+}
+
+.sidebar-nav .sidebar-link,
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: all 0.18s ease;
+    position: relative;
+    border: 1px solid transparent;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none;
+}
+
+.sidebar-nav .sidebar-link i,
+.sidebar-nav a i {
+    width: 18px;
+    font-size: 14px;
+    text-align: center;
+    color: var(--text-muted);
+    transition: color 0.18s ease;
+}
+
+/* Hover State */
+.sidebar-nav .sidebar-link:hover,
+.sidebar-nav a:hover {
+    background: var(--bg-nav-hover);
+    color: #c084fc;
+}
+
+.sidebar-nav .sidebar-link:hover i,
+.sidebar-nav a:hover i {
+    color: #c084fc;
+}
+
+/* Current Active Route State */
+.sidebar-nav .sidebar-link.active,
+.sidebar-nav a.active {
+    background: var(--bg-nav-active);
+    color: #ffffff;
+    font-weight: 600;
+    border-color: var(--border-active);
+    box-shadow: inset 0 0 12px rgba(168, 85, 247, 0.08);
+}
+
+.sidebar-nav .sidebar-link.active i,
+.sidebar-nav a.active i {
+    color: #a855f7;
+}
+
+/* Sidebar Profile Avatar Badge - Clean & Crystal Clear */
+.sidebar-profile-avatar-box {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #121224;
+}
+
+.sidebar-user-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.sidebar-user-avatar-letter {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #7c3aed;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+/* Mini Mode Profile Avatar Badge (Navigation Rail) */
+html.sidebar-mini .sidebar-profile-avatar-box,
+body.sidebar-mini .sidebar-profile-avatar-box {
+    width: 26px;
+    height: 26px;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+}
+
+html.sidebar-mini .sidebar-link:hover .sidebar-profile-avatar-box,
+html.sidebar-mini .sidebar-link.active .sidebar-profile-avatar-box,
+body.sidebar-mini .sidebar-link:hover .sidebar-profile-avatar-box,
+body.sidebar-mini .sidebar-link.active .sidebar-profile-avatar-box {
+    border-color: #ffffff;
+}
+
+html.sidebar-mini .sidebar-user-avatar-letter,
+body.sidebar-mini .sidebar-user-avatar-letter {
+    font-size: 12px;
+}
+
+/* =========================================================
+   SIDEBAR FOOTER & LOGOUT (Zero Jitter)
+========================================================= */
+.sidebar-footer {
+    border-top: 1px solid var(--border-glass);
+    padding-top: 14px;
+    margin-top: auto;
+}
+
+.sidebar-footer .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: #f87171;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: background 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.sidebar-footer .logout-btn:focus,
+.sidebar-footer .logout-btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.sidebar-footer .logout-btn i {
+    width: 18px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.sidebar-footer .logout-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
+}
+
+/* =========================================================
+   MOBILE TOGGLE & BACKDROP OVERLAY
+========================================================= */
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1100;
+    background: rgba(15, 15, 30, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    color: #ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.sidebar-toggle:hover {
+    background: var(--primary-gradient);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Floating Expand Tab (Desktop - Appears when sidebar is collapsed) */
+.sidebar-expand-tab {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 18px;
+    z-index: 1050;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(18, 14, 38, 0.92);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    color: #ffffff;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(168, 85, 247, 0.35);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none !important;
+}
+
+.sidebar-expand-tab:hover {
+    background: #6c3ce0;
+    border-color: #c084fc;
+    transform: scale(1.1);
+    box-shadow: 0 6px 24px rgba(108, 60, 224, 0.6);
+}
+
+/* =========================================================
+   MAIN CONTENT ADAPTATION
+========================================================= */
+.main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+    box-sizing: border-box;
+    transition: margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease, width 0.3s ease;
+}
+
+.nav-icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   SIDEBAR MINI ICON RAIL (STAYS PINNED ON LEFT)
+   Full Webpage width with icon navigation (Zero Movement)
+========================================================= */
+html.sidebar-mini .sidebar,
+body.sidebar-mini .sidebar {
+    width: var(--sidebar-mini-width, 64px) !important;
+    padding: 20px 8px 18px 8px !important;
+}
+
+html.sidebar-mini .sidebar-header-row,
+body.sidebar-mini .sidebar-header-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+html.sidebar-mini .sidebar-logo,
+body.sidebar-mini .sidebar-logo {
+    justify-content: center;
+}
+
+html.sidebar-mini .sidebar-logo-text,
+html.sidebar-mini .nav-label,
+html.sidebar-mini .nav-link-text,
+body.sidebar-mini .sidebar-logo-text,
+body.sidebar-mini .nav-label,
+body.sidebar-mini .nav-link-text {
+    display: none !important;
+}
+
+html.sidebar-mini .sidebar-nav,
+body.sidebar-mini .sidebar-nav {
+    align-items: center;
+    gap: 6px;
+}
+
+html.sidebar-mini .sidebar-nav .sidebar-link,
+html.sidebar-mini .sidebar-nav a,
+body.sidebar-mini .sidebar-nav .sidebar-link,
+body.sidebar-mini .sidebar-nav a {
+    width: 44px;
+    height: 44px;
+    padding: 0 !important;
+    justify-content: center;
+    border-radius: 10px;
+    gap: 0;
+}
+
+html.sidebar-mini .sidebar-nav .sidebar-link i,
+html.sidebar-mini .sidebar-nav a i,
+body.sidebar-mini .sidebar-nav .sidebar-link i,
+body.sidebar-mini .sidebar-nav a i {
+    font-size: 16px;
+    width: auto;
+}
+
+html.sidebar-mini .sidebar-footer,
+body.sidebar-mini .sidebar-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+html.sidebar-mini .logout-btn,
+body.sidebar-mini .logout-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0 !important;
+    justify-content: center;
+    border-radius: 10px;
+    gap: 0;
+}
+
+html.sidebar-mini .logout-btn i,
+body.sidebar-mini .logout-btn i {
+    font-size: 16px;
+    width: auto;
+}
+
+html.sidebar-mini .main-content,
+body.sidebar-mini .main-content {
+    margin-left: var(--sidebar-mini-width, 64px) !important;
+    width: calc(100% - var(--sidebar-mini-width, 64px)) !important;
+    max-width: calc(100% - var(--sidebar-mini-width, 64px)) !important;
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+}
+
+@media (max-width: 768px) {
+    html.sidebar-mini .main-content,
+    body.sidebar-mini .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+}
+
+/* =========================================================
+   MOBILE BOTTOM NAVIGATION BAR
+   (Hidden on desktop, visible on mobile <= 768px)
+========================================================= */
+.mobile-bottom-nav {
+    display: none;
+}
+
+/* =========================================================
+   RESPONSIVE (MOBILE <= 768px)
+========================================================= */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        background: rgba(10, 10, 26, 0.97);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 10px 0 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .sidebar-toggle,
+    .sidebar-overlay {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding-bottom: calc(85px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    /* ── Mobile Bottom Navigation Bar ── */
+    .mobile-bottom-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        padding: 0 10px;
+        padding-bottom: max(6px, env(safe-area-inset-bottom, 0px));
+        background: rgba(10, 10, 26, 0.94);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(108, 60, 224, 0.08);
+        z-index: 1000;
+        box-sizing: border-box;
+    }
+
+    .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        height: 100%;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.45);
+        font-size: 11px;
+        font-weight: 500;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        -webkit-tap-highlight-color: transparent;
+        gap: 3px;
+    }
+
+    .mobile-nav-item .nav-icon-wrap {
+        width: 28px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        transition: transform 0.25s ease, color 0.25s ease;
+    }
+
+    .mobile-nav-item:hover,
+    .mobile-nav-item:focus {
+        color: #c084fc;
+        outline: none;
+    }
+
+    .mobile-nav-item.active {
+        color: #a855f7;
+        font-weight: 700;
+    }
+
+    .mobile-nav-item.active .nav-icon-wrap {
+        transform: translateY(-2px) scale(1.1);
+        color: #a855f7;
+        filter: drop-shadow(0 2px 8px rgba(168, 85, 247, 0.5));
+    }
+
+    .mobile-nav-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: 3px;
+        width: 16px;
+        height: 3px;
+        border-radius: 99px;
+        background: linear-gradient(90deg, #6c3ce0, #a855f7);
+        box-shadow: 0 0 8px rgba(168, 85, 247, 0.8);
+    }
+
+    /* Center Floating Create Action Button */
+    .mobile-nav-item.center-action {
+        position: relative;
+        top: -18px;
+        flex: 0 0 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        z-index: 10;
+    }
+
+    .mobile-nav-item.center-action .center-action-btn,
+    .mobile-nav-item.center-action .center-btn-inner {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #6c3ce0, #a855f7);
+        color: #ffffff !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 6px 22px rgba(108, 60, 224, 0.65), 0 0 0 4px #0a0a1a;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+    }
+
+    .mobile-nav-item.center-action .center-action-btn i,
+    .mobile-nav-item.center-action .center-btn-inner i {
+        color: #ffffff !important;
+        font-size: 20px;
+    }
+
+    .mobile-nav-item.center-action:active .center-action-btn,
+    .mobile-nav-item.center-action:hover .center-action-btn,
+    .mobile-nav-item.center-action:active .center-btn-inner,
+    .mobile-nav-item.center-action:hover .center-btn-inner {
+        transform: scale(1.12) translateY(-2px);
+        box-shadow: 0 10px 30px rgba(168, 85, 247, 0.85), 0 0 0 4px #0a0a1a;
+        background: linear-gradient(135deg, #7b4ae8, #b865f7);
+    }
+
+    .mobile-nav-item.logout-nav-item:hover,
+    .mobile-nav-item.logout-nav-item:active {
+        color: #f87171;
+    }
+
+    .mobile-nav-item.logout-nav-item:hover .nav-icon-wrap,
+    .mobile-nav-item.logout-nav-item:active .nav-icon-wrap {
+        color: #f87171;
+    }
+}
+
+/* =========================================================
+   LOGOUT 2-3s ANIMATED LOADING OVERLAY
+========================================================= */
+.logout-loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 3, 15, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logout-loading-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.logout-loading-card {
+    width: 360px;
+    max-width: 90%;
+    background: linear-gradient(145deg, rgba(28, 20, 48, 0.96), rgba(12, 10, 24, 0.98));
+    border: 1px solid rgba(239, 68, 68, 0.28);
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75), 0 0 50px rgba(239, 68, 68, 0.15);
+    border-radius: 24px;
+    padding: 38px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transform: scale(0.92);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logout-loading-overlay.active .logout-loading-card {
+    transform: scale(1);
+}
+
+.logout-spinner-wrap {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logout-spinner-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3.5px solid rgba(239, 68, 68, 0.15);
+    border-top-color: #f87171;
+    border-right-color: #ef4444;
+    animation: spinLogout 0.85s linear infinite;
+}
+
+@keyframes spinLogout {
+    to { transform: rotate(360deg); }
+}
+
+.logout-spinner-ico {
+    font-size: 22px;
+    color: #f87171;
+    animation: pulseLogoutIco 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseLogoutIco {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.12); opacity: 1; filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.8)); }
+}
+
+.logout-loading-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+}
+
+.logout-loading-sub {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.48);
+    margin-bottom: 24px;
+}
+
+.logout-progress-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    position: relative;
+}
+
+.logout-progress-bar {
+    width: 0%;
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #ef4444, #f87171);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+    animation: fillLogoutBar 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fillLogoutBar {
+    0% { width: 0%; }
+    50% { width: 60%; }
+    100% { width: 100%; }
+}

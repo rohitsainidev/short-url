@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics | ShortURL</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/analytics.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<%- include("../partials/sidebar") %>
+
+<main class="main-content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h1><i class="fas fa-chart-line"></i> Analytics Overview</h1>
+            <p>Track your link clicks, performance metrics, and real-time traffic statistics.</p>
+        </div>
+        <div class="header-actions">
+            <span class="last-updated"><i class="fas fa-clock"></i> Updated: <span id="updateTime"></span></span>
+            <button class="refresh-btn" onclick="location.reload()">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+        </div>
+    </div>   
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon icon-indigo">
+                <i class="fas fa-link"></i>
+            </div>
+            <div class="stat-info">
+                <h2><%= (stats && stats.totalUrls) ? stats.totalUrls : 0 %></h2>
+                <p>Total URLs</p>
+            </div>
+            <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> Active
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-amber">
+                <i class="fas fa-mouse-pointer"></i>
+            </div>
+            <div class="stat-info">
+                <h2><%= (stats && stats.totalClicks) ? stats.totalClicks : 0 %></h2>
+                <p>Total Clicks</p>
+            </div>
+            <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> Realtime
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-emerald">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="stat-info">
+                <h2><%= (stats && stats.averageClicks) ? stats.averageClicks : 0 %></h2>
+                <p>Average Clicks</p>
+            </div>
+            <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> Per Link
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-rose">
+                <i class="fas fa-calendar-day"></i>
+            </div>
+            <div class="stat-info">
+                <h2><%= (stats && stats.todayClicks) ? stats.todayClicks : 0 %></h2>
+                <p>Today's Clicks</p>
+            </div>
+            <div class="stat-change positive">
+                <i class="fas fa-bolt"></i> Today
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-purple">
+                <i class="fas fa-fire"></i>
+            </div>
+            <div class="stat-info">
+                <h2><%= (urls && urls.length > 0) ? Math.max(...urls.map(u => u.clicks || 0)) : 0 %></h2>
+                <p>Highest Click Count</p>
+            </div>
+            <div class="stat-change positive">
+                <i class="fas fa-trophy"></i> Top
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+        <!-- Line Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2><i class="fas fa-chart-simple" style="color: #a855f7;"></i> Link Traffic Activity</h2>
+                <span class="chart-badge">Click Trend</span>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="clickChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h2><i class="fas fa-chart-pie" style="color: #ffffff;"></i> Click Distribution</h2>
+                <span class="chart-badge">Top 5 Links</span>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top URL Card -->
+    <div class="top-url-card">
+        <div class="top-url-header">
+            <h2><i class="fas fa-trophy" style="color: #ffffff;"></i> Top Performing URL</h2>
+            <span class="top-badge">🔥 Most Clicked</span>
+        </div>
+        <div class="top-url-content">
+            <% if (urls && urls.length > 0) { %>
+                <% const topUrl = urls.reduce((max, url) => url.clicks > max.clicks ? url : max, urls[0]); %>
+                <div class="top-url-info">
+                    <div class="top-url-rank">🏆</div>
+                    <div class="top-url-details">
+                        <div class="top-url-short">
+                            <i class="fas fa-link"></i> <a href="/<%= topUrl.shortUrl %>" target="_blank"><%= topUrl.shortUrl %></a>
+                        </div>
+                        <div class="top-url-original" title="<%= topUrl.originalUrl %>">
+                            <i class="fas fa-arrow-right"></i> <%= topUrl.originalUrl %>
+                        </div>
+                    </div>
+                    <div class="top-url-stats">
+                        <div class="top-url-clicks">
+                            <span class="clicks-number"><%= topUrl.clicks %></span>
+                            <span class="clicks-label">Total Clicks</span>
+                        </div>
+                        <div class="top-url-created">
+                            <i class="fas fa-calendar"></i> <%= new Date(topUrl.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                        </div>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="top-url-empty">
+                    <i class="fas fa-inbox"></i>
+                    <p>No URLs found yet</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Table Card: All URLs Performance -->
+    <div class="table-card" id="analyticsTableCard">
+        <div class="table-header">
+            <div class="table-title-wrap">
+                <h2><i class="fas fa-list-check" style="color: #a855f7;"></i> All URLs Performance</h2>
+                <p class="table-sub">Detailed click analytics and traffic breakdown for all your links</p>
+            </div>
+            <div class="table-actions">
+                <div class="table-search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="analyticsSearchInput" placeholder="Filter links...">
+                </div>
+                <span class="total-count"><%= urls ? urls.length : 0 %> URLs Total</span>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="analyticsTable">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th>Short URL</th>
+                        <th>Destination URL</th>
+                        <th>Clicks</th>
+                        <th>Created Date</th>
+                        <th style="min-width: 160px;">Traffic Share</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (urls && urls.length > 0) { %>
+                        <% const maxClicks = Math.max(...urls.map(u => u.clicks || 0), 1); %>
+                        <% urls.forEach(function(url, index) { %>
+                            <tr>
+                                <td><span class="row-number"><%= index + 1 %></span></td>
+                                <td>
+                                    <span class="short-url">
+                                        <i class="fas fa-link"></i> 
+                                        <a href="/<%= url.shortUrl %>" target="_blank" class="short-link-anchor"><%= url.shortUrl %></a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="original-url" title="<%= url.originalUrl %>">
+                                        <%= url.originalUrl %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="clicks-count">
+                                        <i class="fas fa-mouse-pointer"></i> <%= url.clicks %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="created-date">
+                                        <i class="fas fa-calendar-alt"></i> 
+                                        <%= new Date(url.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="performance-wrapper">
+                                        <div class="performance-top">
+                                            <span class="performance-label">Share</span>
+                                            <span class="performance-percentage">
+                                                <%= maxClicks > 0 ? Math.round((Number(url.clicks || 0) / maxClicks) * 100) : 0 %>%
+                                            </span>
+                                        </div>
+                                        <div class="performance-bar">
+                                            <div class="performance-fill" style="width: <%= maxClicks > 0 ? Math.round((Number(url.clicks || 0) / maxClicks) * 100) : 0 %>%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="empty">
+                                <i class="fas fa-inbox" style="font-size: 2.2rem; display: block; margin-bottom: 0.5rem; color: rgba(255,255,255,0.2);"></i>
+                                No URLs Found
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+                      
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Update time
+    const timeEl = document.getElementById('updateTime');
+    if (timeEl) timeEl.textContent = new Date().toLocaleTimeString();
+
+    // Get data safely
+    let urls = [];
+    try {
+        urls = <%- JSON.stringify(urls || []) %>;
+    } catch(e) {
+        console.error("Error parsing urls:", e);
+        urls = [];
+    }
+
+    if (typeof Chart === 'undefined') {
+        console.error("Chart.js failed to load.");
+        return;
+    }
+
+    // 1. LINK TRAFFIC ACTIVITY (LINE CHART)
+    const lineCtx = document.getElementById("clickChart");
+    if (lineCtx) {
+        if (urls && urls.length > 0) {
+            // Sort by oldest to newest for chronological trend
+            const sortedUrls = [...urls].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+            const labels = sortedUrls.map(url => url.shortUrl);
+            const data = sortedUrls.map(url => Number(url.clicks || 0));
+
+            const ctx = lineCtx.getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 240);
+            gradient.addColorStop(0, 'rgba(168, 85, 247, 0.35)');
+            gradient.addColorStop(1, 'rgba(168, 85, 247, 0.0)');
+
+            new Chart(lineCtx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Clicks",
+                        data: data,
+                        borderColor: "#a855f7",
+                        backgroundColor: gradient,
+                        borderWidth: 2.5,
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: "#c084fc",
+                        pointBorderColor: "#0d0b1c",
+                        pointBorderWidth: 2,
+                        pointRadius: 4.5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: "#171427",
+                            titleColor: "#ffffff",
+                            bodyColor: "#c084fc",
+                            borderColor: "rgba(168, 85, 247, 0.4)",
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            padding: 10,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + " clicks";
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: Math.max(...data, 4),
+                            grid: { color: "rgba(255, 255, 255, 0.05)" },
+                            ticks: { 
+                                color: "#94a3b8",
+                                stepSize: 1,
+                                precision: 0
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { 
+                                color: "#94a3b8",
+                                maxRotation: 45,
+                                minRotation: 0
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            // Empty placeholder for line chart
+            new Chart(lineCtx, {
+                type: "line",
+                data: {
+                    labels: ["No Links Yet"],
+                    datasets: [{
+                        label: "Clicks",
+                        data: [0],
+                        borderColor: "#a855f7",
+                        backgroundColor: "rgba(168, 85, 247, 0.05)",
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, suggestedMax: 5, grid: { color: "rgba(255, 255, 255, 0.05)" } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+    }
+
+    // 2. CLICK DISTRIBUTION (DOUGHNUT / PIE CHART)
+    const pieCtx = document.getElementById("pieChart");
+    if (pieCtx) {
+        if (urls && urls.length > 0) {
+            const topUrls = [...urls].sort((a, b) => (b.clicks || 0) - (a.clicks || 0)).slice(0, 5);
+            const totalClicks = topUrls.reduce((sum, u) => sum + Number(u.clicks || 0), 0);
+
+            if (totalClicks > 0) {
+                const pieLabels = topUrls.map(u => u.shortUrl);
+                const pieData = topUrls.map(u => Number(u.clicks || 0));
+                const colors = ["#a855f7", "#ec4899", "#3b82f6", "#10b981", "#f59e0b"];
+
+                new Chart(pieCtx, {
+                    type: "doughnut",
+                    data: {
+                        labels: pieLabels,
+                        datasets: [{
+                            data: pieData,
+                            backgroundColor: colors,
+                            borderColor: "#0d0b1c",
+                            borderWidth: 3,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: "65%",
+                        plugins: {
+                            legend: {
+                                position: "bottom",
+                                labels: {
+                                    color: "#cbd5e1",
+                                    font: { family: "Inter", size: 11.5, weight: "500" },
+                                    padding: 12,
+                                    usePointStyle: true,
+                                    pointStyle: "circle"
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: "#171427",
+                                titleColor: "#ffffff",
+                                bodyColor: "#e9d5ff",
+                                borderColor: "rgba(168, 85, 247, 0.4)",
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                padding: 10,
+                                callbacks: {
+                                    label: function(context) {
+                                        const count = context.parsed;
+                                        const pct = Math.round((count / totalClicks) * 100);
+                                        return `${count} clicks (${pct}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                // If all URLs have 0 clicks, display a clean placeholder ring
+                new Chart(pieCtx, {
+                    type: "doughnut",
+                    data: {
+                        labels: ["No Clicks Yet"],
+                        datasets: [{
+                            data: [1],
+                            backgroundColor: ["rgba(168, 85, 247, 0.15)"],
+                            borderColor: "#0d0b1c",
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: "65%",
+                        plugins: {
+                            legend: {
+                                position: "bottom",
+                                labels: {
+                                    color: "#94a3b8",
+                                    font: { family: "Inter", size: 11.5 }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function() { return "Share links to track click distribution"; }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        } else {
+            // Empty state for pie chart
+            new Chart(pieCtx, {
+                type: "doughnut",
+                data: {
+                    labels: ["No Data"],
+                    datasets: [{
+                        data: [1],
+                        backgroundColor: ["rgba(255, 255, 255, 0.05)"],
+                        borderColor: "#0d0b1c",
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: "65%",
+                    plugins: {
+                        legend: { position: "bottom", labels: { color: "#64748b" } }
+                    }
+                }
+            });
+        }
+    }
+
+    // 3. LIVE SEARCH FILTER FOR TABLE
+    const searchInput = document.getElementById("analyticsSearchInput");
+    if (searchInput) {
+        searchInput.addEventListener("keyup", function() {
+            const query = this.value.toLowerCase().trim();
+            const rows = document.querySelectorAll("#analyticsTable tbody tr");
+            rows.forEach(row => {
+                if (row.querySelector('.empty')) return;
+                row.style.display = row.innerText.toLowerCase().includes(query) ? "" : "none";
+            });
+        });
+    }
+});
+</script>
+</body>
+</html>

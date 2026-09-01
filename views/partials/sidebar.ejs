@@ -1,0 +1,257 @@
+<script>
+    // Immediate pre-render class to eliminate layout flash / jump / movement completely
+    if (localStorage.getItem('sidebarMini') === 'true') {
+        document.documentElement.classList.add('sidebar-mini');
+    }
+</script>
+
+<!-- Main Sidebar (Desktop Collapsible Icon Rail) -->
+<aside class="sidebar" id="sidebar">
+    <!-- Brand Logo & Collapse/Expand Button Row -->
+    <div class="sidebar-header-row">
+        <a href="/" class="sidebar-logo" title="ShortURL Home">
+            <div class="sidebar-logo-icon">
+                <i class="fas fa-link"></i>
+            </div>
+            <span class="sidebar-logo-text">Short<span>URL</span></span>
+        </a>
+        
+        <!-- Desktop Sidebar Mini/Expand Toggle Button -->
+        <button type="button" class="sidebar-collapse-btn" id="sidebarCollapseBtn" title="Toggle Compact / Full Sidebar" aria-label="Toggle Sidebar">
+            <i class="fas fa-angles-left" id="collapseIcon"></i>
+        </button>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+        <span class="nav-label">Menu</span>
+
+        <a href="/dashboard" class="sidebar-link" data-path="/dashboard" title="Dashboard">
+            <div class="nav-icon-box">
+                <i class="fas fa-th-large"></i>
+            </div>
+            <span class="nav-link-text">Dashboard</span>
+        </a>
+
+        <a href="/dashboard/analytics" class="sidebar-link" data-path="/dashboard/analytics" title="Analytics">
+            <div class="nav-icon-box">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <span class="nav-link-text">Analytics</span>
+        </a>
+
+        <a href="/dashboard/myurls" class="sidebar-link" data-path="/dashboard/myurls" title="My URLs">
+            <div class="nav-icon-box">
+                <i class="fas fa-link"></i>
+            </div>
+            <span class="nav-link-text">My URLs</span>
+        </a>
+
+        <!-- Profile Link with Dynamic User Photo / Letter Avatar -->
+        <a href="/dashboard/profile" class="sidebar-link" data-path="/dashboard/profile" title="Profile">
+            <div class="nav-icon-box sidebar-profile-avatar-box" id="sidebarProfileAvatarBox">
+                <% if (locals.user && locals.user.profilePic && locals.user.profilePic.trim() !== '') { %>
+                    <img src="<%= locals.user.profilePic %>" alt="Profile" class="sidebar-user-avatar-img" id="sidebarAvatarImg">
+                <% } else { %>
+                    <div class="sidebar-user-avatar-letter" id="sidebarAvatarLetter">
+                        <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
+                    </div>
+                <% } %>
+            </div>
+            <span class="nav-link-text">Profile</span>
+        </a>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+        <a href="/user/logout" class="logout-btn" title="Logout">
+            <div class="nav-icon-box">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <span class="nav-link-text">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<!-- =========================================================
+     MOBILE BOTTOM NAVIGATION BAR
+     Premium Glassmorphism + Center Action + Profile
+========================================================= -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <a href="/dashboard" class="mobile-nav-item" data-path="/dashboard">
+        <div class="nav-icon-wrap">
+            <i class="fas fa-th-large"></i>
+        </div>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="/dashboard/analytics" class="mobile-nav-item" data-path="/dashboard/analytics">
+        <div class="nav-icon-wrap">
+            <i class="fas fa-chart-pie"></i>
+        </div>
+        <span>Analytics</span>
+    </a>
+
+    <!-- Center Floating Action Button: Quick Shorten URL -->
+    <a href="/#shortenSection" class="mobile-nav-item center-action" id="mobileCreateLinkBtn" title="Create Short URL" aria-label="Create Short URL">
+        <div class="center-action-btn">
+            <i class="fas fa-plus"></i>
+        </div>
+    </a>
+
+    <a href="/dashboard/myurls" class="mobile-nav-item" data-path="/dashboard/myurls">
+        <div class="nav-icon-wrap">
+            <i class="fas fa-link"></i>
+        </div>
+        <span>My URLs</span>
+    </a>
+
+    <!-- Mobile Nav Profile Item with Dynamic User Photo / Letter Avatar -->
+    <a href="/dashboard/profile" class="mobile-nav-item" data-path="/dashboard/profile">
+        <div class="nav-icon-wrap sidebar-profile-avatar-box" id="mobileProfileAvatarBox">
+            <% if (locals.user && locals.user.profilePic && locals.user.profilePic.trim() !== '') { %>
+                <img src="<%= locals.user.profilePic %>" alt="Profile" class="sidebar-user-avatar-img" id="mobileAvatarImg">
+            <% } else { %>
+                <div class="sidebar-user-avatar-letter" id="mobileAvatarLetter">
+                    <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
+                </div>
+            <% } %>
+        </div>
+        <span>Profile</span>
+    </a>
+</nav>
+
+<!-- =========================================================
+     LOGOUT 2-3s ANIMATED LOADING OVERLAY MODAL
+========================================================= -->
+<div class="logout-loading-overlay" id="logoutLoadingModal">
+    <div class="logout-loading-card">
+        <div class="logout-spinner-wrap">
+            <div class="logout-spinner-ring"></div>
+            <i class="fas fa-arrow-right-from-bracket logout-spinner-ico"></i>
+        </div>
+        <h3 class="logout-loading-title">Logging Out...</h3>
+        <p class="logout-loading-sub">Ending your secure session safely</p>
+        <div class="logout-progress-track">
+            <div class="logout-progress-bar"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebarToggle');
+        const overlay = document.getElementById('sidebarOverlay');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item:not(.center-action)');
+        const collapseBtn = document.getElementById('sidebarCollapseBtn');
+        const collapseIcon = document.getElementById('collapseIcon');
+
+        // ── 1. Desktop Sidebar Mini Rail / Full Width Toggle ──
+        function setSidebarMini(isMini) {
+            if (isMini) {
+                document.documentElement.classList.add('sidebar-mini');
+                document.body.classList.add('sidebar-mini');
+                if (collapseIcon) collapseIcon.className = 'fas fa-angles-right';
+                if (collapseBtn) collapseBtn.title = 'Expand Full Sidebar';
+                localStorage.setItem('sidebarMini', 'true');
+            } else {
+                document.documentElement.classList.remove('sidebar-mini');
+                document.body.classList.remove('sidebar-mini');
+                if (collapseIcon) collapseIcon.className = 'fas fa-angles-left';
+                if (collapseBtn) collapseBtn.title = 'Collapse to Icon Rail';
+                localStorage.setItem('sidebarMini', 'false');
+            }
+        }
+
+        // Sync initial icon state
+        if (localStorage.getItem('sidebarMini') === 'true') {
+            setSidebarMini(true);
+        } else {
+            setSidebarMini(false);
+        }
+
+        if (collapseBtn) {
+            collapseBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isCurrentlyMini = document.documentElement.classList.contains('sidebar-mini') || document.body.classList.contains('sidebar-mini');
+                setSidebarMini(!isCurrentlyMini);
+            });
+        }
+
+        // ── 2. Dynamic active state based on current URL pathname ──
+        const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+
+        function syncActive(elements) {
+            let matched = false;
+            elements.forEach(item => {
+                const itemPath = item.getAttribute('href').replace(/\/$/, '') || '/';
+                if (itemPath === currentPath) {
+                    item.classList.add('active');
+                    matched = true;
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            if (!matched && (currentPath === '/dashboard')) {
+                elements.forEach(item => {
+                    if (item.getAttribute('href') === '/dashboard') {
+                        item.classList.add('active');
+                    }
+                });
+            }
+        }
+
+        syncActive(sidebarLinks);
+        syncActive(mobileNavItems);
+
+        // ── 3. Mobile drawer toggle ──
+        function toggleSidebar(e) {
+            if (e) e.stopPropagation();
+            sidebar.classList.toggle('active');
+            if (overlay) overlay.classList.toggle('active');
+            if (toggleBtn) {
+                const icon = toggleBtn.querySelector('i');
+                if (icon) {
+                    icon.className = sidebar.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+                }
+            }
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            if (toggleBtn) {
+                const icon = toggleBtn.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+        if (overlay) overlay.addEventListener('click', closeSidebar);
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) closeSidebar();
+            });
+        });
+
+        // ── 4. Animated 2.2s Logout Flow ──
+        function triggerLogout(e) {
+            if (e) e.preventDefault();
+            const modal = document.getElementById('logoutLoadingModal');
+            if (modal) {
+                modal.classList.add('active');
+            }
+            setTimeout(() => {
+                window.location.href = '/user/logout';
+            }, 2200);
+        }
+
+        document.querySelectorAll('a[href="/user/logout"], a[href="/logout"], a[href="/dashboard/logout"], .logout-btn, .btn-hero-logout, .btn-session-logout').forEach(btn => {
+            btn.addEventListener('click', triggerLogout);
+        });
+    });
+</script>

@@ -1,0 +1,488 @@
+/* =====================================
+   PRICING SECTION
+===================================== */
+
+.pricing-section {
+    position: relative;
+
+    width: 100%;
+
+    display: block;
+
+    margin: 0;
+    padding: 110px 0;
+
+    clear: both;
+
+    box-sizing: border-box;
+
+    z-index: 2;
+}
+
+
+/* =====================================
+   CONTAINER
+===================================== */
+
+.pricing-container {
+    width: 90%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+
+/* =====================================
+   HEADING
+===================================== */
+
+.pricing-heading {
+    max-width: 800px;
+
+    margin: 0 auto 60px;
+
+    text-align: center;
+}
+
+
+.pricing-badge {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 9px 20px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid rgba(168, 85, 247, 0.35);
+
+    border-radius: 30px;
+
+    background: rgba(168, 85, 247, 0.08);
+
+    color: #c084fc;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+.pricing-heading h2 {
+    margin: 0 0 20px;
+
+    color: #ffffff;
+
+    font-size: 46px;
+
+    line-height: 1.15;
+
+    font-weight: 800;
+}
+
+
+.pricing-heading h2 span {
+    display: block;
+
+    background: linear-gradient(
+        135deg,
+        #7c3aed,
+        #a855f7,
+        #c084fc
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+}
+
+
+.pricing-heading p {
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =====================================
+   PRICING GRID
+===================================== */
+
+.pricing-grid {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 24px;
+
+    align-items: stretch;
+}
+
+
+/* =====================================
+   PRICING CARD
+===================================== */
+
+.pricing-card {
+
+    position: relative;
+
+    padding: 35px 30px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 22px;
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    overflow: hidden;
+
+    transition: all 0.35s ease;
+}
+
+
+.pricing-card:hover {
+
+    transform: translateY(-8px);
+
+    border-color: rgba(168, 85, 247, 0.4);
+
+    background: rgba(168, 85, 247, 0.055);
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.35),
+        0 0 35px rgba(124, 58, 237, 0.12);
+}
+
+
+/* =====================================
+   POPULAR CARD
+===================================== */
+
+.pricing-card.popular {
+
+    border: 1px solid rgba(168, 85, 247, 0.5);
+
+    background: rgba(124, 58, 237, 0.07);
+
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 20px 60px rgba(124, 58, 237, 0.12);
+}
+
+
+.pricing-card.popular:hover {
+
+    transform: translateY(-14px);
+}
+
+
+/* =====================================
+   POPULAR BADGE
+===================================== */
+
+.popular-badge {
+
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        135deg,
+        #7c3aed,
+        #a855f7
+    );
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =====================================
+   ICON
+===================================== */
+
+.pricing-icon {
+
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 22px;
+
+    border-radius: 15px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(124, 58, 237, 0.22),
+        rgba(168, 85, 247, 0.12)
+    );
+
+    border: 1px solid rgba(168, 85, 247, 0.25);
+
+    color: #c084fc;
+
+    font-size: 22px;
+}
+
+
+/* =====================================
+   TITLE
+===================================== */
+
+.pricing-card h3 {
+
+    margin: 0 0 10px;
+
+    color: #ffffff;
+
+    font-size: 24px;
+
+    font-weight: 700;
+}
+
+
+/* =====================================
+   DESCRIPTION
+===================================== */
+
+.pricing-description {
+
+    min-height: 48px;
+
+    margin: 0 0 25px;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================
+   PRICE
+===================================== */
+
+.price {
+
+    display: flex;
+
+    align-items: baseline;
+
+    margin-bottom: 28px;
+
+    color: #ffffff;
+}
+
+
+.currency {
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    color: #c084fc;
+}
+
+
+.amount {
+
+    margin-left: 4px;
+
+    font-size: 48px;
+
+    font-weight: 800;
+
+    line-height: 1;
+}
+
+
+.period {
+
+    margin-left: 5px;
+
+    color: rgba(255, 255, 255, 0.4);
+
+    font-size: 13px;
+}
+
+
+/* =====================================
+   BUTTON
+===================================== */
+
+.pricing-btn {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 20px;
+
+    margin-bottom: 30px;
+
+    border-radius: 11px;
+
+    background: linear-gradient(
+        135deg,
+        #7c3aed,
+        #a855f7
+    );
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    transition: all 0.3s ease;
+}
+
+
+.pricing-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(124, 58, 237, 0.3);
+}
+
+
+/* =====================================
+   FEATURES LIST
+===================================== */
+
+.pricing-features {
+
+    list-style: none;
+
+    margin: 0;
+
+    padding: 0;
+}
+
+
+.pricing-features li {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 0;
+
+    color: rgba(255, 255, 255, 0.6);
+
+    font-size: 14px;
+}
+
+
+.pricing-features li i {
+
+    color: #a855f7;
+
+    font-size: 13px;
+}
+
+
+/* =====================================
+   TABLET
+===================================== */
+
+@media (max-width: 900px) {
+
+    .pricing-grid {
+
+        grid-template-columns: 1fr;
+
+        max-width: 600px;
+
+        margin: 0 auto;
+    }
+
+    .pricing-card.popular {
+
+        transform: none;
+    }
+
+    .pricing-card.popular:hover {
+
+        transform: translateY(-8px);
+    }
+
+    .pricing-heading h2 {
+
+        font-size: 38px;
+    }
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+    .pricing-section {
+
+        padding: 80px 0;
+    }
+
+    .pricing-container {
+
+        width: 92%;
+    }
+
+    .pricing-heading h2 {
+
+        font-size: 30px;
+    }
+
+    .pricing-heading p {
+
+        font-size: 14px;
+    }
+
+    .pricing-card {
+
+        padding: 28px 24px;
+    }
+}

@@ -1,0 +1,281 @@
+<nav class="navbar">
+    <div class="nav-container">
+
+        <!-- Logo -->
+        <a href="/" class="nav-logo">
+            <div class="nav-logo-icon">
+                <i class="fas fa-link"></i>
+            </div>
+            <span class="nav-logo-text">Short<span>URL</span></span>
+        </a>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="navLinks">
+
+            <!-- Mobile Drawer Header with Close Button -->
+            <li class="mobile-drawer-header">
+                <div class="mobile-drawer-logo">
+                    <div class="nav-logo-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <span class="nav-logo-text">Short<span>URL</span></span>
+                </div>
+                <button type="button" class="mobile-drawer-close" id="mobileDrawerClose" aria-label="Close Menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </li>
+
+            <li>
+                <a href="/" class="nav-link">
+                    <i class="fas fa-home"></i> <span>Home</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/#features" class="nav-link">
+                    <i class="fas fa-star"></i> <span>Features</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/#pricing" class="nav-link">
+                    <i class="fas fa-tags"></i> <span>Pricing</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/#about" class="nav-link">
+                    <i class="fas fa-circle-info"></i> <span>About</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/#contact" class="nav-link">
+                    <i class="fas fa-envelope"></i> <span>Contact</span>
+                </a>
+            </li>
+
+            <% const currentUser = (typeof user !== 'undefined' && user) ? user : (typeof locals !== 'undefined' && locals.user ? locals.user : null); %>
+
+            <% if (currentUser) { %>
+                <!-- Desktop Only: Dashboard Button & Avatar Dropdown -->
+                <li class="desktop-only-auth">
+                    <a href="/dashboard" class="nav-btn-primary">
+                        <i class="fas fa-th-large"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="desktop-only-auth nav-dropdown-wrapper" id="navDropdownWrapper">
+                    <button type="button" class="nav-avatar-trigger" id="navAvatarTrigger" aria-label="Open User Menu" aria-expanded="false">
+                        <div class="nav-avatar-circle">
+                            <% if (currentUser.profilePic && currentUser.profilePic.trim() !== '') { %>
+                                <img src="<%= currentUser.profilePic %>" alt="<%= currentUser.name || 'User' %>" class="nav-avatar-img">
+                            <% } else { %>
+                                <div class="nav-avatar-letter">
+                                    <%= (currentUser.name) ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
+                                </div>
+                            <% } %>
+                        </div>
+                        <i class="fas fa-chevron-down nav-chevron-icon" id="navChevronIcon"></i>
+                    </button>
+
+                    <!-- Dropdown Popover Menu (Desktop) -->
+                    <div class="nav-dropdown-menu" id="navDropdownMenu">
+                        <div class="nav-dropdown-header">
+                            <div class="nav-dropdown-avatar">
+                                <% if (currentUser.profilePic && currentUser.profilePic.trim() !== '') { %>
+                                    <img src="<%= currentUser.profilePic %>" alt="<%= currentUser.name || 'User' %>" class="nav-avatar-img">
+                                <% } else { %>
+                                    <div class="nav-avatar-letter">
+                                        <%= (currentUser.name) ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="nav-dropdown-info">
+                                <span class="nav-dropdown-name"><%= currentUser.name || 'Account User' %></span>
+                                <span class="nav-dropdown-email"><%= currentUser.email || 'user@example.com' %></span>
+                            </div>
+                        </div>
+
+                        <div class="nav-dropdown-divider"></div>
+
+                        <div class="nav-dropdown-links">
+                            <a href="/dashboard" class="nav-dropdown-item">
+                                <i class="fas fa-th-large"></i>
+                                <span>Dashboard</span>
+                            </a>
+                            <a href="/dashboard/myurls" class="nav-dropdown-item">
+                                <i class="fas fa-link"></i>
+                                <span>My URLs</span>
+                            </a>
+                            <a href="/dashboard/analytics" class="nav-dropdown-item">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>Analytics</span>
+                            </a>
+                            <a href="/dashboard/profile" class="nav-dropdown-item">
+                                <i class="fas fa-user-gear"></i>
+                                <span>Profile & Settings</span>
+                            </a>
+                        </div>
+
+                        <div class="nav-dropdown-divider"></div>
+
+                        <a href="/user/logout" class="nav-dropdown-item logout-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Sign Out</span>
+                        </a>
+                    </div>
+                </li>
+
+                <!-- Mobile Only: Dedicated Clean User Profile Section & Buttons -->
+                <li class="mobile-user-section">
+                    <div class="mobile-user-card">
+                        <div class="mobile-user-avatar">
+                            <% if (currentUser.profilePic && currentUser.profilePic.trim() !== '') { %>
+                                <img src="<%= currentUser.profilePic %>" alt="<%= currentUser.name || 'User' %>" class="nav-avatar-img">
+                            <% } else { %>
+                                <div class="nav-avatar-letter">
+                                    <%= (currentUser.name) ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="mobile-user-info">
+                            <span class="mobile-user-name"><%= currentUser.name || 'Account User' %></span>
+                            <span class="mobile-user-email"><%= currentUser.email || 'user@example.com' %></span>
+                        </div>
+                    </div>
+
+                    <a href="/dashboard" class="mobile-btn-dashboard">
+                        <i class="fas fa-th-large"></i>
+                        <span>Go to Dashboard</span>
+                    </a>
+
+                    <div class="mobile-quick-links">
+                        <a href="/dashboard/myurls" class="mobile-sublink">
+                            <i class="fas fa-link"></i> My URLs
+                        </a>
+                        <a href="/dashboard/analytics" class="mobile-sublink">
+                            <i class="fas fa-chart-pie"></i> Analytics
+                        </a>
+                        <a href="/dashboard/profile" class="mobile-sublink">
+                            <i class="fas fa-user-gear"></i> Profile
+                        </a>
+                        <a href="/user/logout" class="mobile-sublink logout">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out
+                        </a>
+                    </div>
+                </li>
+
+            <% } else { %>
+                <!-- Guest State -->
+                <li class="auth-guest-item">
+                    <a href="/user/signup" class="nav-btn-primary" title="Create Free Account or Sign In">
+                        <i class="fas fa-user-plus"></i> <span>Sign Up</span>
+                    </a>
+                </li>
+            <% } %>
+
+        </ul>
+
+        <!-- Mobile Hamburger Menu Button -->
+        <button type="button" class="nav-hamburger" id="navHamburger" aria-label="Open Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+    </div>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Mobile Menu Drawer Toggle
+    const navHamburger = document.getElementById("navHamburger");
+    const navLinks = document.getElementById("navLinks");
+    const mobileClose = document.getElementById("mobileDrawerClose");
+
+    function openMobileMenu() {
+        if (navLinks) navLinks.classList.add("active");
+        if (navHamburger) navHamburger.classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeMobileMenu() {
+        if (navLinks) navLinks.classList.remove("active");
+        if (navHamburger) navHamburger.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+
+    if (navHamburger) {
+        navHamburger.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (navLinks && navLinks.classList.contains("active")) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        });
+    }
+
+    if (mobileClose) {
+        mobileClose.addEventListener("click", function(e) {
+            e.stopPropagation();
+            closeMobileMenu();
+        });
+    }
+
+    // Close on navigation link click (except dropdown inside)
+    document.querySelectorAll(".nav-links a:not(.nav-dropdown-item)").forEach(link => {
+        link.addEventListener("click", () => {
+            closeMobileMenu();
+        });
+    });
+
+    // 2. Google / GitHub Style Desktop Profile Avatar Dropdown
+    const trigger = document.getElementById("navAvatarTrigger");
+    const dropdown = document.getElementById("navDropdownMenu");
+    const chevron = document.getElementById("navChevronIcon");
+    const wrapper = document.getElementById("navDropdownWrapper");
+
+    if (trigger && dropdown) {
+        function toggleDropdown(e) {
+            if (e) e.stopPropagation();
+            const isOpen = dropdown.classList.contains("active");
+            if (isOpen) {
+                closeDropdown();
+            } else {
+                openDropdown();
+            }
+        }
+
+        function openDropdown() {
+            dropdown.classList.add("active");
+            if (chevron) chevron.style.transform = "rotate(180deg)";
+            trigger.setAttribute("aria-expanded", "true");
+        }
+
+        function closeDropdown() {
+            dropdown.classList.remove("active");
+            if (chevron) chevron.style.transform = "rotate(0deg)";
+            trigger.setAttribute("aria-expanded", "false");
+        }
+
+        trigger.addEventListener("click", toggleDropdown);
+
+        // Close on clicking outside
+        document.addEventListener("click", function(e) {
+            if (wrapper && !wrapper.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                closeDropdown();
+                closeMobileMenu();
+            }
+        });
+    }
+});
+</script>

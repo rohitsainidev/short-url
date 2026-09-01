@@ -1,0 +1,93 @@
+<section id="about" class="about-section">
+    <div class="about-container">
+
+        <!-- Section Heading -->
+        <div class="about-heading">
+            <span class="about-badge">
+                <i class="fas fa-microchip"></i> ARCHITECTURE & MISSION
+            </span>
+            <h2>
+                Engineered for speed, <span>built for privacy</span>
+            </h2>
+            <p>
+                ShortURL is a lightweight, developer-first link infrastructure platform built with Node.js and MongoDB to provide instant link shortening with deep click analytics.
+            </p>
+        </div>
+
+        <!-- 2-Column Showcase Layout -->
+        <div class="about-grid">
+
+            <!-- Left: Live Architecture Terminal Card -->
+            <div class="about-terminal-card">
+                <div class="terminal-header">
+                    <span class="terminal-title">shorturl-engine.js</span>
+                </div>
+
+                <div class="terminal-body">
+                    <div class="code-line"><span class="code-comment">// 1. Incoming long URL request</span></div>
+                    <div class="code-line"><span class="code-keyword">const</span> <span class="code-var">shortId</span> = <span class="code-func">generateNanoId</span>(8);</div>
+                    <div class="code-line"><span class="code-comment">// 2. High-speed MongoDB storage</span></div>
+                    <div class="code-line"><span class="code-keyword">await</span> <span class="code-var">Url</span>.<span class="code-func">create</span>({ shortId, originalUrl, clicks: <span class="code-num">0</span> });</div>
+                    <div class="code-line"><span class="code-comment">// 3. Sub-50ms redirect execution</span></div>
+                    <div class="code-line"><span class="code-keyword">return</span> <span class="code-var">res</span>.<span class="code-func">redirect</span>(<span class="code-num">302</span>, entry.originalUrl);</div>
+                </div>
+
+                <!-- Live Metrics Grid Inside Terminal -->
+                <div class="terminal-metrics">
+                    <div class="metric-item">
+                        <span class="metric-val">&lt; 50ms</span>
+                        <span class="metric-lbl">Redirect Latency</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-val">100%</span>
+                        <span class="metric-lbl">Data Privacy</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-val">SHA-256</span>
+                        <span class="metric-lbl">Secure JWT Auth</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Feature Highlights & Principles -->
+            <div class="about-features-col">
+
+                <!-- Feature 1 -->
+                <div class="about-feat-item">
+                    <div class="about-feat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="about-feat-content">
+                        <h4>Zero-Friction Link Shortening</h4>
+                        <p>Shorten any long URL directly in under 1 second without mandatory account barriers or annoying delay timers.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="about-feat-item">
+                    <div class="about-feat-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="about-feat-content">
+                        <h4>Real-Time Click Intelligence</h4>
+                        <p>Track total visits, device distribution, referrer history, and engagement timelines with our live dashboard.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="about-feat-item">
+                    <div class="about-feat-icon">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div class="about-feat-content">
+                        <h4>Enterprise Privacy & Security</h4>
+                        <p>Zero third-party tracking cookies, secure bcrypt password hashing, and encrypted JWT session cookies.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>

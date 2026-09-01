@@ -1,0 +1,916 @@
+/* =========================================================
+   SHORT URL — PROFESSIONAL SAAS PROFILE STYLES
+   Dark Purple Glassmorphism + Responsive Grid
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a1a;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+.main-content {
+    min-width: 0;
+    max-width: 100%;
+    min-height: 100vh;
+    padding: 32px 36px;
+    background:
+        radial-gradient(circle at 85% 10%, rgba(108, 60, 224, 0.10), transparent 28%),
+        radial-gradient(circle at 10% 85%, rgba(168, 85, 247, 0.06), transparent 25%),
+        #0a0a1a;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+.main-content .header {
+    margin-bottom: 28px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.page-title i {
+    background: linear-gradient(135deg, #6c3ce0, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    color: #ffffff;
+    opacity: 0.85;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   FEEDBACK ALERTS
+========================================================= */
+.alert-box {
+    padding: 13px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    animation: alertSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.alert-box.success {
+    background: rgba(34, 197, 94, 0.10);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    color: #4ade80;
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.08);
+}
+
+.alert-box.error {
+    background: rgba(239, 68, 68, 0.10);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #f87171;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.08);
+}
+
+@keyframes alertSlideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   FLOATING TOAST NOTIFICATION
+========================================================= */
+.toast-notification {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 99999;
+    background: rgba(18, 14, 38, 0.95);
+    border: 1.5px solid rgba(168, 85, 247, 0.3);
+    border-radius: 12px;
+    padding: 14px 20px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(108, 60, 224, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    opacity: 0;
+    transform: translateY(-16px) scale(0.95);
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast-notification.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.toast-notification.success {
+    border-color: rgba(34, 197, 94, 0.35);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(34, 197, 94, 0.2);
+}
+
+.toast-notification.success .toast-ico {
+    color: #4ade80;
+}
+
+.toast-notification.error {
+    border-color: rgba(239, 68, 68, 0.35);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+.toast-notification.error .toast-ico {
+    color: #f87171;
+}
+
+/* =========================================================
+   GLASS CARD BASE
+========================================================= */
+.glass-card {
+    background: rgba(255, 255, 255, 0.035);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    border-color: rgba(168, 85, 247, 0.20);
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.32), 0 0 30px rgba(108, 60, 224, 0.06);
+}
+
+/* =========================================================
+   1. TOP PROFILE HERO BANNER
+========================================================= */
+.profile-hero {
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    position: relative;
+}
+
+.hero-left-wrap {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    min-width: 0;
+}
+
+/* Avatar Manager (Circular Avatar + Action Buttons) */
+.avatar-manager {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.user-avatar-wrap {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.user-avatar-wrap:hover {
+    transform: scale(1.04);
+}
+
+.avatar-display-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #a855f7;
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.4), 0 8px 25px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-avatar-letter {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6c3ce0, #a855f7);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    font-weight: 800;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    user-select: none;
+}
+
+.user-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Floating Camera Badge (Bottom-Right) */
+.avatar-cam-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6c3ce0, #a855f7);
+    border: 2.5px solid #0a0a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 13px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(168, 85, 247, 0.4);
+    z-index: 5;
+    transition: all 0.2s ease;
+}
+
+.user-avatar-wrap:hover .avatar-cam-badge {
+    transform: scale(1.12);
+    box-shadow: 0 6px 18px rgba(168, 85, 247, 0.6);
+}
+
+/* Avatar Buttons Row (Rounded Pills) */
+.avatar-btns-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-avatar-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-family: inherit;
+}
+
+.btn-avatar-action.upload {
+    background: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.btn-avatar-action.upload:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
+}
+
+.btn-avatar-action.remove {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #ffffff;
+}
+
+.btn-avatar-action.remove:hover {
+    background: #ef4444;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+}
+
+.user-hero-details {
+    min-width: 0;
+}
+
+.user-name-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.user-name-row h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    word-break: break-word;
+}
+
+/* WhatsApp-Style Pen Edit Button */
+.btn-pen-edit {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-pen-edit:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
+    color: #ffffff;
+    transform: scale(1.08);
+}
+
+/* Inline Name Edit Form */
+.inline-name-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.inline-name-form input {
+    height: 38px;
+    padding: 0 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid #ffffff;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    outline: none;
+    font-family: inherit;
+    width: 220px;
+    max-width: 100%;
+}
+
+.inline-name-form input:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.inline-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-pen-confirm {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #22c55e;
+    border: none;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+    transition: all 0.2s ease;
+}
+
+.btn-pen-confirm:hover {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
+
+.btn-pen-cancel {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-pen-cancel:hover {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: #ffffff;
+    transform: scale(1.08);
+}
+
+.badge-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.badge-verified i {
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.user-email-text {
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    word-break: break-all;
+}
+
+.user-email-text i {
+    color: #ffffff;
+}
+
+.user-join-date {
+    font-size: 12px;
+    color: #ffffff;
+    opacity: 0.85;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.user-join-date i {
+    color: #ffffff;
+}
+
+/* =========================================================
+   2. TWO-COLUMN SETTINGS GRID
+========================================================= */
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.profile-card {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-card.sec-full-card {
+    max-width: 100%;
+    margin-top: 4px;
+}
+
+/* =========================================================
+   2. ACCOUNT SECURITY & DETAILS
+========================================================= */
+.sec-card-header {
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sec-title-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* Clean Icon without Boxed Background */
+.sec-clean-ico {
+    font-size: 26px;
+    color: #ffffff;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
+
+.sec-title-row h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.sec-title-row p {
+    font-size: 13px;
+    color: #ffffff;
+    opacity: 0.85;
+    margin-top: 2px;
+}
+
+/* =========================================================
+   ACCOUNT SECURITY LIST
+========================================================= */
+.security-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sec-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.sec-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.sec-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.sec-meta span {
+    color: #ffffff;
+}
+
+.sec-meta i {
+    width: 18px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.sec-action-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sec-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.sec-value.email-value {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.btn-sec-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-sec-action:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-sec-action.primary {
+    background: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+}
+
+.btn-sec-action.primary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
+}
+
+.sec-value.active-now {
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 8px #ffffff;
+    display: inline-block;
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    from { transform: scale(0.9); opacity: 0.7; }
+    to { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 4px #ffffff); }
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.status-pill.green {
+    background: none;
+    border: none;
+    color: #ffffff;
+}
+
+.status-pill.green i {
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.status-pill.purple {
+    background: none;
+    border: none;
+    color: #ffffff;
+}
+
+.status-pill.purple i {
+    font-size: 14px;
+    color: #ffffff;
+}
+
+/* =========================================================
+   EXPANDABLE PASSWORD CHANGE FORM (NO BG, PURE WHITE)
+========================================================= */
+.pwd-expand-form {
+    padding: 22px;
+    border-radius: 16px;
+    background: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    animation: alertSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    margin: 6px 0;
+}
+
+.pwd-form-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 18px;
+}
+
+.pwd-form-title i {
+    color: #ffffff;
+}
+
+.pwd-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.pwd-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pwd-field-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.pwd-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pwd-input-wrap input {
+    width: 100%;
+    height: 42px;
+    padding: 0 38px 0 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    font-size: 13px;
+    color: #ffffff;
+    outline: none;
+    font-family: inherit;
+    transition: all 0.25s ease;
+}
+
+.pwd-input-wrap input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.pwd-input-wrap input:focus {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+}
+
+.pwd-eye-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 13px;
+    transition: opacity 0.2s ease;
+    opacity: 0.7;
+}
+
+.pwd-eye-btn:hover {
+    opacity: 1;
+}
+
+.pwd-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-cancel-pwd {
+    padding: 8px 18px;
+    border-radius: 10px;
+    background: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-cancel-pwd:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.btn-update-pwd {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 22px;
+    border-radius: 10px;
+    background: #ffffff;
+    border: none;
+    color: #0a0a1a;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-update-pwd:hover {
+    transform: translateY(-1px);
+    background: #f1f5f9;
+    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.35);
+}
+
+@media (max-width: 900px) {
+    .pwd-fields-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE (MOBILE & TABLET)
+========================================================= */
+@media (max-width: 900px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .hero-left-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 18px 16px calc(88px + env(safe-area-inset-bottom, 0px)) 16px !important;
+    }
+
+    .main-content .header {
+        padding-left: 0;
+        margin-bottom: 20px;
+    }
+
+    .page-title {
+        font-size: 22px;
+    }
+
+    .profile-hero {
+        padding: 20px 18px;
+    }
+
+    .user-avatar-wrap {
+        width: 74px;
+        height: 74px;
+    }
+
+    .user-avatar-letter {
+        font-size: 28px;
+    }
+
+    .user-name-row h2 {
+        font-size: 20px;
+    }
+
+    .profile-card {
+        padding: 20px 18px;
+    }
+
+    .btn-save {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 14px 12px calc(88px + env(safe-area-inset-bottom, 0px)) 12px !important;
+    }
+
+    .main-content .header {
+        padding-left: 0;
+    }
+
+    .page-title {
+        font-size: 19px;
+    }
+}

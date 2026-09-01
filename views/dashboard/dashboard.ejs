@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | ShortURL</title>
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/scroll-reveal.css">
+</head>
+<body>
+
+    <%- include("../partials/sidebar") %>
+    
+    <main class="main-content">
+        <%
+            const totalUrlsCount = (typeof stats !== 'undefined' && stats && typeof stats.totalUrls !== 'undefined') ? stats.totalUrls : (typeof urls !== 'undefined' && urls ? urls.length : 0);
+            const totalClicksCount = (typeof stats !== 'undefined' && stats && typeof stats.totalClicks !== 'undefined') ? stats.totalClicks : (typeof totalClicks !== 'undefined' ? totalClicks : (typeof urls !== 'undefined' && urls ? urls.reduce((s, u) => s + (u.clicks || 0), 0) : 0));
+            const todayClicksCount = (typeof stats !== 'undefined' && stats && typeof stats.todayClicks !== 'undefined') ? stats.todayClicks : 0;
+            const avgClicksCount = (typeof stats !== 'undefined' && stats && typeof stats.averageClicks !== 'undefined') ? stats.averageClicks : (totalUrlsCount > 0 ? (totalClicksCount / totalUrlsCount).toFixed(1) : 0);
+            const resolvedLatestUrl = (typeof latestUrl !== 'undefined' && latestUrl) ? latestUrl : (typeof urls !== 'undefined' && urls && urls.length > 0 ? urls[0] : null);
+            const resolvedTopUrl = (typeof topUrl !== 'undefined' && topUrl) ? topUrl : (typeof urls !== 'undefined' && urls && urls.length > 0 ? urls.reduce((max, u) => (u.clicks || 0) > (max.clicks || 0) ? u : max, urls[0]) : null);
+        %>
+
+        <!-- Hero Header -->
+        <div class="hero glass-card">
+            <div class="hero-left">
+                <div class="hero-badge">
+                    <i class="fas fa-sparkles"></i>
+                    <span>Dashboard Overview</span>
+                </div>
+                <% const displayName = (typeof user !== 'undefined' && user && user.name) ? user.name : 'Creator'; %>
+                <h1 class="greeting">Welcome back, <%= displayName %> 👋</h1>
+                <p class="subtitle">Overview of your shortened links, traffic analytics, and recent activity.</p>
+            </div>
+            
+            <div class="hero-right">
+                <a href="/#shortenSection" class="create-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>Create New URL</span>
+                </a>
+            </div>
+        </div>
+         
+        <!-- Stat Cards Grid -->
+        <div class="cards">
+            <div class="card glass-card">
+                <div class="card-icon icon-urls">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Total URLs</h3>
+                    <h2 class="stat-number"><%= totalUrlsCount %></h2>
+                </div>
+            </div>
+
+            <div class="card glass-card">
+                <div class="card-icon icon-clicks">
+                    <i class="fas fa-mouse-pointer"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Total Clicks</h3>
+                    <h2 class="stat-number"><%= totalClicksCount %></h2>
+                </div>
+            </div>
+
+            <div class="card glass-card">
+                <div class="card-icon icon-today">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Today's Clicks</h3>
+                    <h2 class="stat-number"><%= todayClicksCount %></h2>
+                </div>
+            </div>
+
+            <div class="card glass-card">
+                <div class="card-icon icon-avg">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Average Clicks</h3>
+                    <h2 class="stat-number"><%= avgClicksCount %></h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Grid (Latest URL + Top Performer) -->
+        <div class="info-grid">
+            <!-- Latest URL Card -->
+            <div class="glass-card info-card">
+                <div class="info-header">
+                    <div class="info-icon-box">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <h3>Latest URL</h3>
+                        <p class="info-sub">Most recently created short link</p>
+                    </div>
+                </div>
+
+                <% if (resolvedLatestUrl) { %>
+                    <div class="info-body">
+                        <div class="short-link-badge">
+                            <i class="fas fa-link"></i>
+                            <a href="/<%= resolvedLatestUrl.shortUrl %>" target="_blank" class="short-link-text">
+                                <%= resolvedLatestUrl.shortUrl %>
+                            </a>
+                        </div>
+                        <div class="info-url" title="<%= resolvedLatestUrl.originalUrl %>">
+                            <i class="fas fa-arrow-right"></i>
+                            <span class="info-url-text"><%= resolvedLatestUrl.originalUrl %></span>
+                        </div>
+                    </div>
+                    <div class="info-footer">
+                        <span class="info-date">
+                            <i class="fas fa-calendar"></i>
+                            <%= new Date(resolvedLatestUrl.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                        </span>
+                        <a href="/dashboard/myurls" class="info-action-btn">
+                            <span>Manage</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                <% } else { %>
+                    <div class="info-empty">
+                        <i class="fas fa-link-slash"></i>
+                        <p>No links created yet. Create your first short URL!</p>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Top Performer Card -->
+            <div class="glass-card info-card">
+                <div class="info-header">
+                    <div class="info-icon-box top-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div>
+                        <h3>Top Performer</h3>
+                        <p class="info-sub">URL with the highest clicks</p>
+                    </div>
+                </div>
+
+                <% if (resolvedTopUrl && (resolvedTopUrl.clicks || 0) > 0) { %>
+                    <div class="info-body">
+                        <div class="short-link-badge">
+                            <i class="fas fa-link"></i>
+                            <a href="/<%= resolvedTopUrl.shortUrl %>" target="_blank" class="short-link-text">
+                                <%= resolvedTopUrl.shortUrl %>
+                            </a>
+                        </div>
+                        <div class="info-url" title="<%= resolvedTopUrl.originalUrl %>">
+                            <i class="fas fa-arrow-right"></i>
+                            <span class="info-url-text"><%= resolvedTopUrl.originalUrl %></span>
+                        </div>
+                    </div>
+                    <div class="info-footer">
+                        <span class="clicks-pill">
+                            <i class="fas fa-mouse-pointer"></i>
+                            <%= resolvedTopUrl.clicks %> Clicks
+                        </span>
+                        <a href="/dashboard/analytics" class="info-action-btn">
+                            <span>View Analytics</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                <% } else { %>
+                    <div class="info-empty">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Analytics data will appear here once links get clicks.</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="recent-section">
+            <div class="glass-card recent-card">
+                <div class="section-header">
+                    <div class="section-title-wrap">
+                        <div class="sec-title-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div>
+                            <h3>Recent Activity</h3>
+                            <p class="sec-sub">Quick view of your latest generated links</p>
+                        </div>
+                    </div>
+                    <a href="/dashboard/myurls" class="view-all">
+                        <span>View All URLs</span> <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="activity-list">
+                    <% const resolvedActivity = (typeof recentActivity !== 'undefined' && recentActivity) ? recentActivity : (typeof urls !== 'undefined' && urls ? urls.slice(0, 5) : []); %>
+                    <% if (resolvedActivity && resolvedActivity.length > 0) { %>
+                        <% resolvedActivity.forEach(item => { %>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-link"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <div class="activity-head">
+                                        <a href="/<%= item.shortUrl %>" target="_blank" class="activity-short">
+                                            <%= item.shortUrl %>
+                                        </a>
+                                        <span class="activity-clicks">
+                                            <i class="fas fa-mouse-pointer"></i> <%= item.clicks %> clicks
+                                        </span>
+                                    </div>
+                                    <p class="activity-orig" title="<%= item.originalUrl %>">
+                                        <%= item.originalUrl %>
+                                    </p>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <div class="activity-empty-state">
+                            <i class="fas fa-link-slash"></i>
+                            <h4>No Recent Links</h4>
+                            <p>You haven't generated any shortened links yet.</p>
+                            <a href="/#shortenSection" class="empty-create-btn">
+                                <i class="fas fa-plus"></i> Create Your First URL
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/scroll-reveal.js"></script>
+</body>
+</html>

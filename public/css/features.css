@@ -1,0 +1,265 @@
+/* ==============================
+   FEATURES SECTION
+============================== */
+
+.features-section {
+    width: 100%;
+    position: relative;
+    display: block;
+    padding: 100px 0;
+    margin: 0;
+    clear: both;
+    z-index: 2;
+}
+
+.features-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* ==============================
+   HEADING
+============================== */
+
+.features-heading {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 55px;
+}
+
+.features-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 18px;
+    margin-bottom: 18px;
+
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 30px;
+
+    background: rgba(168, 85, 247, 0.08);
+
+    color: #c084fc;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.features-badge i {
+    font-size: 13px;
+    line-height: 1;
+}
+
+.features-heading h2 {
+    margin: 0 0 18px;
+
+    color: #fff;
+
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.features-heading h2 span {
+    display: block;
+
+    background: linear-gradient(
+        135deg,
+        #7c3aed,
+        #a855f7,
+        #c084fc
+    );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.features-heading p {
+    color: rgba(255,255,255,0.55);
+
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+
+/* ==============================
+   GRID
+============================== */
+
+.features-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+
+/* ==============================
+   CARD
+============================== */
+
+.feature-card {
+    position: relative;
+
+    min-height: 245px;
+
+    padding: 30px;
+
+    background: rgba(255,255,255,0.035);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 20px;
+
+    backdrop-filter: blur(20px);
+
+    transition: all 0.35s ease;
+
+    overflow: hidden;
+}
+
+.feature-card:hover {
+
+    transform: translateY(-8px);
+
+    border-color: rgba(168,85,247,0.4);
+
+    background: rgba(168,85,247,0.06);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.35),
+        0 0 30px rgba(124,58,237,0.12);
+}
+
+
+/* ==============================
+   ICON
+============================== */
+
+.feature-icon {
+
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 22px;
+
+    border-radius: 15px;
+
+    background: rgba(168, 85, 247, 0.08);
+
+    border: 1px solid rgba(168, 85, 247, 0.3);
+
+    color: #c084fc;
+
+    font-size: 22px;
+
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+
+    background: linear-gradient(
+        135deg,
+        #7c3aed,
+        #a855f7
+    );
+
+    color: white;
+
+    transform: scale(1.08);
+
+    box-shadow:
+        0 10px 25px rgba(124,58,237,0.3);
+}
+
+
+/* ==============================
+   TITLE
+============================== */
+
+.feature-card h3 {
+
+    margin: 0 0 12px;
+
+    color: #fff;
+
+    font-size: 20px;
+
+    font-weight: 700;
+}
+
+
+/* ==============================
+   TEXT
+============================== */
+
+.feature-card p {
+
+    margin: 0;
+
+    color: rgba(255,255,255,0.5);
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* ==============================
+   TABLET
+============================== */
+
+@media (max-width: 900px) {
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features-heading h2 {
+        font-size: 36px;
+    }
+}
+
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media (max-width: 600px) {
+
+    .features-section {
+        padding: 70px 0;
+    }
+
+    .features-container {
+        width: 92%;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .features-heading h2 {
+        font-size: 30px;
+    }
+
+    .features-heading p {
+        font-size: 14px;
+    }
+
+    .feature-card {
+        min-height: auto;
+    }
+}

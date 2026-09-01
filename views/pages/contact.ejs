@@ -1,0 +1,235 @@
+<section id="contact" class="contact-section">
+    <div class="contact-container">
+
+        <!-- Section Heading -->
+        <div class="contact-heading">
+            <span class="contact-badge">
+                <i class="fas fa-paper-plane"></i> GET IN TOUCH
+            </span>
+            <h2>
+                Let's stay <span>connected</span>
+            </h2>
+            <p>
+                Have a question, feedback, or need help with custom link solutions? Reach out anytime.
+            </p>
+        </div>
+
+        <!-- 2-Column Contact Grid -->
+        <div class="contact-grid">
+
+            <!-- Left Card: Direct Contact Channels & Info -->
+            <div class="contact-info-card">
+                <div class="contact-info-header">
+                    <div class="contact-brand-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div>
+                        <h3>ShortURL Support</h3>
+                        <p>We're here to assist your link management workflow</p>
+                    </div>
+                </div>
+
+                <div class="contact-methods">
+                    <!-- Email Card -->
+                    <a href="mailto:rohitkumar123du@gmail.com" class="contact-method-item">
+                        <div class="method-icon-box">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="method-details">
+                            <span class="method-label">Direct Email</span>
+                            <span class="method-value">rohitkumar123du@gmail.com</span>
+                        </div>
+                        <i class="fas fa-arrow-up-right-from-square method-arrow"></i>
+                    </a>
+
+                    <!-- Phone / Support -->
+                    <div class="contact-method-item">
+                        <div class="method-icon-box">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="method-details">
+                            <span class="method-label">Direct Line</span>
+                            <span class="method-value">+91 6397432030</span>
+                        </div>
+                    </div>
+
+                    <!-- GitHub & Dev Support -->
+                    <a href="https://github.com/rohitsainidev" target="_blank" rel="noopener noreferrer" class="contact-method-item">
+                        <div class="method-icon-box">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div class="method-details">
+                            <span class="method-label">Open Source & Issues</span>
+                            <span class="method-value">github.com/rohitsainidev</span>
+                        </div>
+                        <i class="fas fa-arrow-up-right-from-square method-arrow"></i>
+                    </a>
+                </div>
+
+                <!-- Social Connect Row -->
+                <div class="contact-social-wrap">
+                    <span class="social-title">Connect with developer</span>
+                    <div class="contact-social-icons">
+                        <a href="https://github.com/rohitsainidev" target="_blank" rel="noopener noreferrer" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rohit-kumar-46101730b/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="mailto:rohitkumar123du@gmail.com" title="Email Us">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Card: Quick Message Form -->
+            <div class="contact-form-card">
+                <h3 class="form-title">Send us a Message</h3>
+                <p class="form-sub">We usually respond within a few hours</p>
+
+                <form id="contactForm" onsubmit="handleContactSubmit(event)" class="contact-form">
+                    <div class="form-group">
+                        <label for="contactName">Your Name</label>
+                        <div class="form-input-wrap">
+                            <i class="fas fa-user input-ico"></i>
+                            <input type="text" id="contactName" name="name" placeholder="e.g. Rohit Kumar" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactEmail">Email Address</label>
+                        <div class="form-input-wrap">
+                            <i class="fas fa-envelope input-ico"></i>
+                            <input type="email" id="contactEmail" name="email" placeholder="e.g. rohit@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactMessage">Your Message</label>
+                        <div class="form-input-wrap">
+                            <i class="fas fa-comment-dots input-ico" style="top: 18px;"></i>
+                            <textarea id="contactMessage" name="message" rows="4" placeholder="How can we help you?" required></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-send-message" id="btnSendMessage">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Send Message</span>
+                    </button>
+
+                    <div class="contact-success-msg" id="contactSuccessMsg" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="successMsgText">Thank you! Your message has been sent to rohitkumar123du@gmail.com.</span>
+                    </div>
+
+                    <div class="contact-error-msg" id="contactErrorMsg" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span id="errorMsgText">Failed to send message. Please try again.</span>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+async function handleContactSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btnSendMessage');
+    const successMsg = document.getElementById('contactSuccessMsg');
+    const errorMsg = document.getElementById('contactErrorMsg');
+    const nameInput = document.getElementById('contactName');
+    const emailInput = document.getElementById('contactEmail');
+    const messageInput = document.getElementById('contactMessage');
+    
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (!name || !email || !message) {
+        return;
+    }
+
+    // UI Loading state
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Sending...</span>';
+    btn.disabled = true;
+    successMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+
+    try {
+        // 1. Send email directly to rohitkumar123du@gmail.com via FormSubmit AJAX service
+        const emailPromise = fetch("https://formsubmit.co/ajax/rohitkumar123du@gmail.com", {
+            method: "POST",
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                message: message,
+                _subject: `New ShortURL Contact Message from ${name}`,
+                _template: "table",
+                _captcha: "false"
+            })
+        }).catch(err => console.warn("Email service error:", err));
+
+        // 2. Also save into local backend MongoDB database
+        const dbPromise = fetch("/contact", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, message })
+        }).catch(err => console.warn("DB save error:", err));
+
+        // Wait for both requests
+        await Promise.all([emailPromise, dbPromise]);
+
+        // Success state
+        btn.innerHTML = '<i class="fas fa-check"></i> <span>Message Sent!</span>';
+        
+        // Show success popup with reset transition
+        successMsg.style.display = 'flex';
+        successMsg.style.opacity = '1';
+        successMsg.style.transform = 'translateY(0)';
+        
+        document.getElementById('contactForm').reset();
+
+        // Hide popup automatically after 3 seconds
+        setTimeout(() => {
+            successMsg.style.opacity = '0';
+            successMsg.style.transform = 'translateY(-8px)';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 400);
+        }, 3000);
+
+        // Reset button state
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Send Message</span>';
+            btn.disabled = false;
+        }, 3000);
+
+    } catch (error) {
+        console.error("Submission failed:", error);
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Send Message</span>';
+        btn.disabled = false;
+        
+        errorMsg.style.display = 'flex';
+        errorMsg.style.opacity = '1';
+        errorMsg.style.transform = 'translateY(0)';
+        
+        setTimeout(() => {
+            errorMsg.style.opacity = '0';
+            errorMsg.style.transform = 'translateY(-8px)';
+            setTimeout(() => {
+                errorMsg.style.display = 'none';
+            }, 400);
+        }, 3500);
+    }
+}
+</script>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | ShortURL</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/scroll-reveal.css">
+</head>
+<body>
+
+    <%- include("../partials/sidebar") %>
+
+    <main class="main-content">
+
+        <!-- Page Header -->
+        <div class="header">
+            <h1 class="page-title">Profile &amp; Account</h1>
+            <p class="subtitle">Manage your personal profile, photo, and account security.</p>
+        </div>
+
+        <!-- Feedback Alert Messages -->
+        <% if (locals.success) { %>
+        <div class="alert-box success" id="alertBox">
+            <i class="fas fa-check-circle"></i>
+            <span><%= locals.success %></span>
+        </div>
+        <% } %>
+
+        <% if (locals.error) { %>
+        <div class="alert-box error" id="alertBox">
+            <i class="fas fa-exclamation-circle"></i>
+            <span><%= locals.error %></span>
+        </div>
+        <% } %>
+
+        <!-- Floating Toast Notification -->
+        <div class="toast-notification" id="profileToast">
+            <i class="fas fa-check-circle toast-ico" id="toastIcon"></i>
+            <span id="toastMsg">Updated successfully!</span>
+        </div>
+
+        <!-- 1. Top Profile Hero Overview Card (Circular Avatar + WhatsApp-style Pen Edit) -->
+        <div class="glass-card profile-hero">
+            <div class="hero-left-wrap">
+                
+                <!-- Circular Avatar with Camera Badge & Click trigger -->
+                <div class="avatar-manager">
+                    <div class="user-avatar-wrap" id="avatarWrap" onclick="document.getElementById('avatarFileInput').click();" title="Click to upload/change photo">
+                        <div id="avatarDisplay" class="avatar-display-inner">
+                            <% if (locals.user && locals.user.profilePic && locals.user.profilePic.trim() !== '') { %>
+                                <img src="<%= locals.user.profilePic %>" alt="<%= locals.user.name || 'User' %>" class="user-avatar-img" id="avatarImg">
+                            <% } else { %>
+                                <div class="user-avatar-letter" id="avatarLetter">
+                                    <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
+                                </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- Floating Camera Badge (Bottom Right) -->
+                        <div class="avatar-cam-badge" title="Change Photo">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+
+                    <!-- Hidden File Input for Image Upload -->
+                    <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleAvatarSelected(event)">
+
+                    <!-- Quick Avatar Action Buttons -->
+                    <div class="avatar-btns-row">
+                        <button type="button" class="btn-avatar-action upload" onclick="document.getElementById('avatarFileInput').click();">
+                            <i class="fas fa-camera"></i>
+                            <span id="uploadBtnText"><%= (locals.user && locals.user.profilePic) ? 'Change Photo' : 'Upload Photo' %></span>
+                        </button>
+
+                        <button type="button" class="btn-avatar-action remove" id="btnRemoveAvatar" 
+                            style="<%= (locals.user && locals.user.profilePic) ? 'display: inline-flex;' : 'display: none;' %>" 
+                            onclick="removeAvatarPhoto()">
+                            <i class="fas fa-trash-alt"></i> Remove
+                        </button>
+                    </div>
+                </div>
+
+                <!-- User Details + WhatsApp-style Inline Pencil Name Edit -->
+                <div class="user-hero-details">
+
+                    <!-- Name Row (View Mode + Inline Edit Form) -->
+                    <div class="user-name-row" id="nameViewWrap">
+                        <h2 id="heroDisplayName"><%= (locals.user && locals.user.name) ? locals.user.name : 'User' %></h2>
+                        <button type="button" class="btn-pen-edit" id="btnEditName" onclick="toggleInlineEdit(true)" title="Edit Name">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        <span class="badge-verified"><i class="fas fa-shield-check"></i> Active Member</span>
+                    </div>
+
+                    <!-- Inline Edit Form (Hidden by default) -->
+                    <form id="inlineNameForm" onsubmit="saveInlineName(event)" class="inline-name-form" style="display: none;">
+                        <input type="text" id="inlineNameInput" value="<%= (locals.user && locals.user.name) ? locals.user.name : '' %>" required minlength="2" maxlength="50" placeholder="Enter your name" autocomplete="off">
+                        <div class="inline-actions">
+                            <button type="submit" class="btn-pen-confirm" id="btnInlineConfirm" title="Save">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button type="button" class="btn-pen-cancel" onclick="toggleInlineEdit(false)" title="Cancel">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <p class="user-email-text"><i class="fas fa-envelope"></i> <%= (locals.user && locals.user.email) ? locals.user.email : 'user@example.com' %></p>
+                    <span class="user-join-date">
+                        <i class="fas fa-calendar-alt"></i> Member since <%= (locals.user && locals.user.createdAt) ? new Date(locals.user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recently' %>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 2. Account Security & Details Card (Fully Working + Clean Header Icon) -->
+        <div class="glass-card profile-card sec-full-card">
+            
+            <!-- Clean Header without Boxed Background -->
+            <div class="sec-card-header">
+                <div class="sec-title-row">
+                    <i class="fas fa-shield-halved sec-clean-ico"></i>
+                    <div>
+                        <h3>Account &amp; Security</h3>
+                        <p>Authentication credentials, registered email, and session security</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="security-list">
+                
+                <!-- Email Row (With Copy Action) -->
+                <div class="sec-item">
+                    <div class="sec-meta">
+                        <i class="fas fa-envelope"></i>
+                        <span>Registered Email</span>
+                    </div>
+                    <div class="sec-action-wrap">
+                        <span class="sec-value email-value" id="userEmailText"><%= (locals.user && locals.user.email) ? locals.user.email : '' %></span>
+                        <button type="button" class="btn-sec-action" onclick="copyUserEmail()" title="Copy Email">
+                            <i class="fas fa-copy"></i>
+                            <span id="copyBtnText">Copy</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Account Status Row -->
+                <div class="sec-item">
+                    <div class="sec-meta">
+                        <i class="fas fa-user-check"></i>
+                        <span>Account Status</span>
+                    </div>
+                    <span class="status-pill green"><i class="fas fa-circle-check"></i> Active &amp; Verified</span>
+                </div>
+
+                <!-- Sign-In Method & Password Update (Interactive!) -->
+                <div class="sec-item sec-pwd-item">
+                    <div class="sec-meta">
+                        <i class="fas fa-key"></i>
+                        <span>Authentication &amp; Password</span>
+                    </div>
+                    
+                    <div class="sec-action-wrap">
+                        <% if (locals.user && locals.user.googleId) { %>
+                            <span class="status-pill purple">
+                                <i class="fab fa-google"></i> Google Account (OAuth)
+                            </span>
+                        <% } else { %>
+                            <span class="sec-value">••••••••••••</span>
+                            <button type="button" class="btn-sec-action primary" id="btnTogglePwdForm" onclick="togglePasswordForm()">
+                                <i class="fas fa-lock"></i>
+                                <span id="pwdToggleText">Change Password</span>
+                            </button>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Expandable Password Change Form (AJAX Interactive) -->
+                <% if (!locals.user || !locals.user.googleId) { %>
+                <div class="pwd-expand-form" id="pwdExpandForm" style="display: none;">
+                    <form onsubmit="handlePasswordChange(event)" id="passwordChangeForm" class="pwd-inner-form">
+                        <div class="pwd-form-title">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Update Your Account Password</span>
+                        </div>
+
+                        <div class="pwd-fields-grid">
+                            <div class="pwd-field-group">
+                                <label for="currentPassword">Current Password</label>
+                                <div class="pwd-input-wrap">
+                                    <input type="password" id="currentPassword" name="currentPassword" required placeholder="Enter current password" autocomplete="current-password">
+                                    <button type="button" class="pwd-eye-btn" onclick="togglePwdVisibility('currentPassword', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="pwd-field-group">
+                                <label for="newPassword">New Password (Min 8 chars)</label>
+                                <div class="pwd-input-wrap">
+                                    <input type="password" id="newPassword" name="newPassword" required minlength="8" placeholder="Enter new password" autocomplete="new-password">
+                                    <button type="button" class="pwd-eye-btn" onclick="togglePwdVisibility('newPassword', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="pwd-field-group">
+                                <label for="confirmNewPassword">Confirm New Password</label>
+                                <div class="pwd-input-wrap">
+                                    <input type="password" id="confirmNewPassword" name="confirmNewPassword" required minlength="8" placeholder="Confirm new password" autocomplete="new-password">
+                                    <button type="button" class="pwd-eye-btn" onclick="togglePwdVisibility('confirmNewPassword', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pwd-form-actions">
+                            <button type="button" class="btn-cancel-pwd" onclick="togglePasswordForm(false)">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn-update-pwd" id="btnSubmitPwd">
+                                <i class="fas fa-check"></i> Update Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <% } %>
+
+                <!-- Account Created Row -->
+                <div class="sec-item">
+                    <div class="sec-meta">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Account Created</span>
+                    </div>
+                    <span class="sec-value">
+                        <%= (locals.user && locals.user.createdAt) ? new Date(locals.user.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Recently' %>
+                    </span>
+                </div>
+
+                <!-- Session Status Row -->
+                <div class="sec-item">
+                    <div class="sec-meta">
+                        <i class="fas fa-desktop"></i>
+                        <span>Session Status</span>
+                    </div>
+                    <span class="sec-value active-now">
+                        <span class="pulse-dot"></span> Current Browser (Active)
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Auto-dismiss alert boxes
+        const alertEl = document.getElementById('alertBox');
+        if (alertEl) {
+            setTimeout(() => {
+                alertEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                alertEl.style.opacity = '0';
+                alertEl.style.transform = 'translateY(-8px)';
+                setTimeout(() => alertEl.remove(), 400);
+            }, 4000);
+        }
+
+        // Floating Toast Notification Trigger
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('profileToast');
+            const icon = document.getElementById('toastIcon');
+            const msg = document.getElementById('toastMsg');
+
+            if (!toast) return;
+
+            msg.textContent = message;
+            if (isSuccess) {
+                toast.className = 'toast-notification success active';
+                icon.className = 'fas fa-check-circle toast-ico';
+            } else {
+                toast.className = 'toast-notification error active';
+                icon.className = 'fas fa-exclamation-circle toast-ico';
+            }
+
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3500);
+        }
+
+        // Copy Email Helper
+        function copyUserEmail() {
+            const email = document.getElementById('userEmailText').textContent.trim();
+            if (!email) return;
+
+            navigator.clipboard.writeText(email).then(() => {
+                const btnText = document.getElementById('copyBtnText');
+                btnText.textContent = 'Copied!';
+                showToast('Email address copied to clipboard!');
+                setTimeout(() => {
+                    btnText.textContent = 'Copy';
+                }, 2500);
+            }).catch(() => {
+                showToast('Failed to copy email', false);
+            });
+        }
+
+        // Password Form Accordion Toggle
+        function togglePasswordForm(forceState) {
+            const formContainer = document.getElementById('pwdExpandForm');
+            const toggleText = document.getElementById('pwdToggleText');
+            if (!formContainer) return;
+
+            const isVisible = forceState !== undefined ? !forceState : formContainer.style.display !== 'none';
+
+            if (isVisible) {
+                formContainer.style.display = 'none';
+                if (toggleText) toggleText.textContent = 'Change Password';
+            } else {
+                formContainer.style.display = 'block';
+                if (toggleText) toggleText.textContent = 'Close';
+                document.getElementById('currentPassword')?.focus();
+            }
+        }
+
+        // Toggle Password Visibility
+        function togglePwdVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // Handle Change Password (AJAX)
+        async function handlePasswordChange(e) {
+            e.preventDefault();
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+            const submitBtn = document.getElementById('btnSubmitPwd');
+
+            if (newPassword.length < 8) {
+                showToast('New password must be at least 8 characters long', false);
+                return;
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                showToast('New passwords do not match', false);
+                return;
+            }
+
+            const originalHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+            submitBtn.disabled = true;
+
+            try {
+                const res = await fetch('/dashboard/profile/password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ currentPassword, newPassword, confirmNewPassword })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Password changed successfully!');
+                    document.getElementById('passwordChangeForm').reset();
+                    togglePasswordForm(false);
+                } else {
+                    showToast(data.error || 'Failed to update password', false);
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Failed to change password. Please check your current password.', false);
+            } finally {
+                submitBtn.innerHTML = originalHtml;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // ── 1. INLINE PENCIL NAME EDIT TOGGLE (WhatsApp Style) ──
+        function toggleInlineEdit(show) {
+            const viewWrap = document.getElementById('nameViewWrap');
+            const form = document.getElementById('inlineNameForm');
+            const input = document.getElementById('inlineNameInput');
+
+            if (show) {
+                viewWrap.style.display = 'none';
+                form.style.display = 'flex';
+                input.focus();
+                input.select();
+            } else {
+                form.style.display = 'none';
+                viewWrap.style.display = 'flex';
+                input.value = document.getElementById('heroDisplayName').textContent.trim();
+            }
+        }
+
+        // ── 2. SAVE INLINE NAME (AJAX) ──
+        async function saveInlineName(e) {
+            e.preventDefault();
+            const input = document.getElementById('inlineNameInput');
+            const newName = input.value.trim();
+            const confirmBtn = document.getElementById('btnInlineConfirm');
+
+            if (!newName || newName.length < 2) {
+                showToast('Name must be at least 2 characters', false);
+                return;
+            }
+
+            const originalBtnHtml = confirmBtn.innerHTML;
+            confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            confirmBtn.disabled = true;
+
+            try {
+                const res = await fetch('/dashboard/profile/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: newName })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('heroDisplayName').textContent = newName;
+
+                    // Update initial letter if letter avatar exists
+                    const letterEl = document.getElementById('avatarLetter');
+                    if (letterEl) {
+                        letterEl.textContent = newName.charAt(0).toUpperCase();
+                    }
+
+                    // Update sidebar initial letters
+                    const sbLetter = document.getElementById('sidebarAvatarLetter');
+                    if (sbLetter) sbLetter.textContent = newName.charAt(0).toUpperCase();
+                    const mbLetter = document.getElementById('mobileAvatarLetter');
+                    if (mbLetter) mbLetter.textContent = newName.charAt(0).toUpperCase();
+
+                    toggleInlineEdit(false);
+                    showToast('Name updated successfully!');
+                } else {
+                    showToast(data.error || 'Failed to update name', false);
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Failed to save name', false);
+            } finally {
+                confirmBtn.innerHTML = originalBtnHtml;
+                confirmBtn.disabled = false;
+            }
+        }
+
+        // ── 3. PHOTO UPLOAD HANDLER ──
+        async function handleAvatarSelected(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size should be less than 5MB', false);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async function(event) {
+                const base64Image = event.target.result;
+
+                try {
+                    const res = await fetch('/dashboard/profile/avatar', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ profilePic: base64Image })
+                    });
+
+                    const data = await res.json();
+                    if (data.success) {
+                        const displayDiv = document.getElementById('avatarDisplay');
+                        displayDiv.innerHTML = `<img src="${base64Image}" alt="Profile Photo" class="user-avatar-img" id="avatarImg">`;
+                        
+                        document.getElementById('btnRemoveAvatar').style.display = 'inline-flex';
+                        document.getElementById('uploadBtnText').textContent = 'Change Photo';
+
+                        // Sync with Sidebar & Mobile Nav Avatar
+                        const sbBox = document.getElementById('sidebarProfileAvatarBox');
+                        if (sbBox) sbBox.innerHTML = `<img src="${base64Image}" alt="Profile" class="sidebar-user-avatar-img" id="sidebarAvatarImg">`;
+                        const mbBox = document.getElementById('mobileProfileAvatarBox');
+                        if (mbBox) mbBox.innerHTML = `<img src="${base64Image}" alt="Profile" class="sidebar-user-avatar-img" id="mobileAvatarImg">`;
+
+                        showToast('Profile photo updated successfully!');
+                    } else {
+                        showToast(data.error || 'Failed to update photo', false);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showToast('Failed to upload photo. Please try again.', false);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ── 4. DIRECT 1-CLICK PHOTO REMOVE HANDLER (NO BROWSER POPUP) ──
+        async function removeAvatarPhoto() {
+            const btnRemove = document.getElementById('btnRemoveAvatar');
+            const originalBtnHtml = btnRemove ? btnRemove.innerHTML : '';
+            if (btnRemove) {
+                btnRemove.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Removing...';
+                btnRemove.disabled = true;
+            }
+
+            try {
+                const res = await fetch('/dashboard/profile/avatar/remove', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    const currentName = document.getElementById('heroDisplayName').textContent.trim() || 'U';
+                    const letter = currentName.charAt(0).toUpperCase();
+
+                    const displayDiv = document.getElementById('avatarDisplay');
+                    displayDiv.innerHTML = `<div class="user-avatar-letter" id="avatarLetter">${letter}</div>`;
+
+                    if (btnRemove) btnRemove.style.display = 'none';
+                    document.getElementById('uploadBtnText').textContent = 'Upload Photo';
+                    document.getElementById('avatarFileInput').value = '';
+
+                    // Sync with Sidebar & Mobile Nav
+                    const sbBox = document.getElementById('sidebarProfileAvatarBox');
+                    if (sbBox) sbBox.innerHTML = `<div class="sidebar-user-avatar-letter" id="sidebarAvatarLetter">${letter}</div>`;
+                    const mbBox = document.getElementById('mobileProfileAvatarBox');
+                    if (mbBox) mbBox.innerHTML = `<div class="sidebar-user-avatar-letter" id="mobileAvatarLetter">${letter}</div>`;
+
+                    showToast('Profile photo removed successfully!');
+                } else {
+                    showToast(data.error || 'Failed to remove photo', false);
+                    if (btnRemove) {
+                        btnRemove.innerHTML = originalBtnHtml;
+                        btnRemove.disabled = false;
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Failed to remove photo', false);
+                if (btnRemove) {
+                    btnRemove.innerHTML = originalBtnHtml;
+                    btnRemove.disabled = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

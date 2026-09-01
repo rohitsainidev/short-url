@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <title>Short URL Generator</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #0a0a1a;
+            min-height: 100vh;
+            padding-top: 70px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
+
+        /* Glowing Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            animation: floatOrb 8s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #6c3ce0;
+            top: -100px;
+            right: -100px;
+            opacity: 0.15;
+        }
+
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: #00d4ff;
+            bottom: -100px;
+            left: -100px;
+            opacity: 0.1;
+            animation-delay: 2s;
+        }
+
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: #f7941e;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.08;
+            animation-delay: 4s;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.6s ease forwards;
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #6c3ce0, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        form {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .input-wrapper .icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            font-size: 15px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="url"]::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        input[type="url"]:focus {
+            border-color: #6c3ce0;
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(108, 60, 224, 0.08);
+        }
+
+        input[type="url"]:focus~.icon,
+        .input-wrapper:focus-within .icon {
+            color: #a855f7;
+        }
+
+        button {
+            padding: 16px 32px;
+            border: none;
+            background: linear-gradient(135deg, #6c3ce0, #a855f7);
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(108, 60, 224, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Table Styles */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: rgba(108, 60, 224, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        td {
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        td a {
+            text-decoration: none;
+            color: #a855f7;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        td a:hover {
+            color: #6c3ce0;
+            text-decoration: underline;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .badge i {
+            font-size: 11px;
+        }
+
+        /* Empty State */
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .empty i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .empty p {
+            font-size: 16px;
+        }
+
+        /* Message */
+        .message {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .message.error {
+            display: flex;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.15);
+        }
+
+        .message.success {
+            display: flex;
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.15);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+                margin: 20px auto;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 24px;
+            }
+
+            form {
+                flex-direction: column;
+            }
+
+            input[type="url"] {
+                padding: 14px 14px 14px 44px;
+                font-size: 14px;
+            }
+
+            button {
+                padding: 14px;
+                justify-content: center;
+                width: 100%;
+            }
+
+            th,
+            td {
+                padding: 12px 8px;
+                font-size: 12px;
+            }
+
+            .orb-1,
+            .orb-2 {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 12px;
+                border-radius: 16px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            th,
+            td {
+                padding: 10px 6px;
+                font-size: 11px;
+            }
+
+            td a {
+                font-size: 12px;
+            }
+        }
+
+        /* Loading State */
+        button.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        button.loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== PROFESSIONAL LOADER OVERLAY ===== */
+        #loaderOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 8, 20, 0.92);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        #loaderOverlay.active {
+            display: flex;
+            animation: overlayFadeIn 0.35s ease forwards;
+        }
+
+        @keyframes overlayFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Loader Card */
+        .loader-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 28px;
+            padding: 50px 60px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(108, 60, 224, 0.15), 0 30px 80px rgba(0, 0, 0, 0.6);
+            animation: cardPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+            position: relative;
+            overflow: hidden;
+            min-width: 340px;
+        }
+
+        .loader-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(108, 60, 224, 0.4), transparent 50%, rgba(0, 212, 255, 0.2));
+            z-index: -1;
+            animation: borderGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes cardPop {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Spinner Rings */
+        .spinner-wrap {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 30px;
+        }
+
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid transparent;
+        }
+
+        .ring-1 {
+            inset: 0;
+            border-top-color: #a855f7;
+            border-right-color: rgba(168, 85, 247, 0.3);
+            animation: spinRing 1s linear infinite;
+        }
+
+        .ring-2 {
+            inset: 12px;
+            border-top-color: #6c3ce0;
+            border-left-color: rgba(108, 60, 224, 0.3);
+            animation: spinRing 1.4s linear infinite reverse;
+        }
+
+        .ring-3 {
+            inset: 24px;
+            border-top-color: #00d4ff;
+            border-right-color: rgba(0, 212, 255, 0.2);
+            animation: spinRing 0.9s linear infinite;
+        }
+
+        @keyframes spinRing {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Center Icon */
+        .spinner-icon {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            animation: iconPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 0.7;
+            }
+        }
+
+        /* Loader Text */
+        .loader-title {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .loader-sub {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        /* Progress Bar */
+        .progress-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #6c3ce0, #a855f7, #00d4ff);
+            border-radius: 999px;
+            animation: progressAnim 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+        }
+
+        @keyframes progressAnim {
+            0% {
+                width: 0%;
+            }
+
+            40% {
+                width: 55%;
+            }
+
+            80% {
+                width: 85%;
+            }
+
+            100% {
+                width: 92%;
+            }
+        }
+
+        /* Status Steps */
+        .loader-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.3);
+            transition: color 0.4s ease;
+        }
+
+        .step.active {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .step.done {
+            color: #22c55e;
+        }
+
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            flex-shrink: 0;
+            transition: background 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .step.active .step-dot {
+            background: #a855f7;
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.8);
+            animation: dotPulse 0.8s ease-in-out infinite;
+        }
+
+        .step.done .step-dot {
+            background: #22c55e;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.4);
+            }
+        }
+
+        /* Floating particles inside overlay */
+        .loader-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(-120px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .result-card {
+            margin-top: 35px;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 18px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .result-card h2 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .result-card input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #16162b;
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .result-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .result-buttons button,
+        .result-buttons a {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            background: #6c3ce0;
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .result-buttons button:hover,
+        .result-buttons a:hover {
+            background: #8b5cf6;
+        }
+
+        .empty {
+            text-align: center;
+            margin-top: 40px;
+            color: #aaa;
+        }
+
+        .field {
+            margin: 18px 0;
+            text-align: left;
+        }
+
+        .field label {
+            display: block;
+            color: #bbb;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #151528;
+            color: #fff;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .open-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            padding: 14px 28px;
+            border-radius: 10px;
+
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: white;
+
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+
+            transition: 0.3s ease;
+        }
+
+        .open-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.35);
+        }
+
+        .create-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            padding: 14px 28px;
+            border-radius: 10px;
+
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: white;
+
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+
+            transition: 0.3s ease;
+        }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.35);
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/features.css">
+<link rel="stylesheet" href="/css/pricing.css">
+<link rel="stylesheet" href="/css/about.css">
+<link rel="stylesheet" href="/css/contact.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/scroll-reveal.css">
+
+<body>
+    <%- include("partials/navbar") %>
+
+        <!-- Glowing Orbs -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <section class="shortener-section">
+
+            <div class="container">
+
+                <!-- tumhara pura existing Short URL code yahan rahega -->
+
+                <h1>🔗 <span>URL Shortener</span></h1>
+
+                <div class="message" id="message">
+                    <i class="fas" id="messageIcon"></i>
+                    <span id="messageText">Something went wrong!</span>
+                </div>
+
+                <form action="/url" method="POST" id="urlForm">
+
+                    <div class="input-wrapper">
+                        <i class="fas fa-link icon"></i>
+
+                        <input type="url" name="originalUrl" placeholder="Enter Long URL..." required id="urlInput" />
+                    </div>
+
+                    <button type="submit" id="submitBtn">
+                        <i class="fas fa-scissors"></i>
+                        Generate
+                    </button>
+
+                </form>
+
+                <% if (typeof shortUrl !== 'undefined' && shortUrl) { %>
+
+                    <div class="result-card">
+
+                        <h2>✅ URL Generated Successfully</h2>
+
+                        <div class="field">
+                            <label>Original URL</label>
+
+                            <input type="text" value="<%= (typeof originalUrl !== 'undefined' && originalUrl) ? originalUrl : '' %>" readonly>
+                        </div>
+
+
+                        <div class="field">
+                            <label>Short URL</label>
+
+                            <div style="display:flex; gap:10px;">
+
+                                <input type="text" id="shortUrl" value="<%= (typeof baseUrl !== 'undefined' && baseUrl) ? baseUrl : 'http://localhost:8001' %>/<%= shortUrl %>" readonly>
+
+                                <button type="button" id="copyBtn">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+
+                            </div>
+                        </div>
+
+
+                        <div class="action-buttons">
+
+                            <a href="/<%= shortUrl %>" target="_blank" class="open-btn">
+                                <i class="fas fa-arrow-up-right-from-square"></i>
+                                Open
+                            </a>
+
+                            <a href="/" class="create-btn">
+                                <i class="fas fa-plus"></i>
+                                Create Another
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <% } %>
+
+            </div>
+
+        </section>
+
+        <!-- FEATURES SECTION -->
+
+        <%- include("pages/features") %>
+
+            <%- include("pages/pricing") %>
+                <%- include("pages/about") %>
+                    <%- include("pages/contact") %>
+                        <%- include("pages/footer") %>
+                            <!-- ===== PROFESSIONAL LOADER OVERLAY ===== -->
+                            <div id="loaderOverlay">
+                                <!-- Floating particles -->
+                                <div class="loader-particle"
+                                    style="width:6px;height:6px;background:#a855f7;left:20%;bottom:10%;animation-duration:3s;animation-delay:0s;">
+                                </div>
+                                <div class="loader-particle"
+                                    style="width:4px;height:4px;background:#00d4ff;left:70%;bottom:15%;animation-duration:4s;animation-delay:0.8s;">
+                                </div>
+                                <div class="loader-particle"
+                                    style="width:5px;height:5px;background:#6c3ce0;left:45%;bottom:5%;animation-duration:3.5s;animation-delay:0.4s;">
+                                </div>
+                                <div class="loader-particle"
+                                    style="width:3px;height:3px;background:#fff;left:30%;bottom:20%;animation-duration:5s;animation-delay:1.2s;">
+                                </div>
+                                <div class="loader-particle"
+                                    style="width:5px;height:5px;background:#a855f7;left:80%;bottom:8%;animation-duration:2.8s;animation-delay:0.6s;">
+                                </div>
+
+                                <div class="loader-card">
+
+                                    <!-- Spinner -->
+                                    <div class="spinner-wrap">
+                                        <div class="ring ring-1"></div>
+                                        <div class="ring ring-2"></div>
+                                        <div class="ring ring-3"></div>
+                                        <div class="spinner-icon">✂️</div>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <div class="loader-title">Creating Short URL</div>
+                                    <div class="loader-sub" id="loaderSubText">Hang tight, we're on it...</div>
+
+                                    <!-- Progress Bar -->
+                                    <div class="progress-track">
+                                        <div class="progress-fill" id="progressFill"></div>
+                                    </div>
+
+                                    <!-- Steps -->
+                                    <div class="loader-steps">
+                                        <div class="step" id="step1">
+                                            <div class="step-dot"></div>
+                                            <span>Validating your URL</span>
+                                        </div>
+                                        <div class="step" id="step2">
+                                            <div class="step-dot"></div>
+                                            <span>Generating short ID</span>
+                                        </div>
+                                        <div class="step" id="step3">
+                                            <div class="step-dot"></div>
+                                            <span>Saving to database</span>
+                                        </div>
+                                        <div class="step" id="step4">
+                                            <div class="step-dot"></div>
+                                            <span>Almost done!</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <script>
+                                // ========================
+                                // FORM SUBMISSION HANDLER
+                                // ========================
+                                const form = document.getElementById('urlForm');
+                                const submitBtn = document.getElementById('submitBtn');
+                                const urlInput = document.getElementById('urlInput');
+                                const message = document.getElementById('message');
+                                const messageText = document.getElementById('messageText');
+                                const messageIcon = document.getElementById('messageIcon');
+
+                                // === Loader Logic ===
+                                function showLoader() {
+                                    const overlay = document.getElementById('loaderOverlay');
+                                    overlay.classList.add('active');
+
+                                    const steps = ['step1', 'step2', 'step3', 'step4'];
+                                    const subs = [
+                                        'Validating your URL...',
+                                        'Generating a unique short ID...',
+                                        'Saving to our database...',
+                                        'Finalising, almost done!'
+                                    ];
+                                    const subEl = document.getElementById('loaderSubText');
+                                    const fill = document.getElementById('progressFill');
+
+                                    // Reset
+                                    steps.forEach(id => {
+                                        const el = document.getElementById(id);
+                                        el.classList.remove('active', 'done');
+                                    });
+
+                                    // Reset progress bar animation by cloning
+                                    const newFill = fill.cloneNode(true);
+                                    fill.parentNode.replaceChild(newFill, fill);
+
+                                    let current = 0;
+
+                                    function activateStep(i) {
+                                        if (i > 0) {
+                                            document.getElementById(steps[i - 1]).classList.remove('active');
+                                            document.getElementById(steps[i - 1]).classList.add('done');
+                                        }
+                                        if (i < steps.length) {
+                                            document.getElementById(steps[i]).classList.add('active');
+                                            subEl.textContent = subs[i];
+                                        }
+                                    }
+
+                                    activateStep(0);
+
+                                    const timings = [400, 850, 1300];
+                                    timings.forEach((delay, idx) => {
+                                        setTimeout(() => activateStep(idx + 1), delay);
+                                    });
+                                }
+
+                                form.addEventListener('submit', function (e) {
+                                    const url = urlInput.value.trim();
+
+                                    // Validate URL
+                                    if (!url) {
+                                        e.preventDefault();
+                                        showMessage('error', 'fa-exclamation-circle', 'Please enter a valid URL');
+                                        urlInput.focus();
+                                        return;
+                                    }
+
+                                    // Check if URL has protocol
+                                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                                        e.preventDefault();
+                                        showMessage('error', 'fa-exclamation-circle', 'URL must start with http:// or https://');
+                                        urlInput.focus();
+                                        return;
+                                    }
+
+                                    // Show professional loader
+                                    e.preventDefault();
+                                    submitBtn.classList.add('loading');
+                                    submitBtn.innerHTML = '<i class="fas fa-spinner"></i> Generating...';
+
+                                    showLoader();
+
+                                    setTimeout(() => {
+                                        form.submit();
+                                    }, 2000);
+                                });
+
+                                // ========================
+                                // HELPER FUNCTIONS
+                                // ========================
+                                function showMessage(type, icon, text) {
+                                    message.className = `message ${type}`;
+                                    messageIcon.className = `fas ${icon}`;
+                                    messageText.textContent = text;
+                                    message.style.display = 'flex';
+
+                                    if (type === 'success') {
+                                        setTimeout(() => {
+                                            message.style.display = 'none';
+                                        }, 5000);
+                                    }
+                                }
+
+                                // Clear message on input
+                                urlInput.addEventListener('input', function () {
+                                    message.style.display = 'none';
+                                    this.style.borderColor = '';
+                                });
+
+                                // ========================
+                                // ENTER KEY SUPPORT
+                                // ========================
+                                urlInput.addEventListener('keydown', function (e) {
+                                    if (e.key === 'Enter') {
+                                        form.dispatchEvent(new Event('submit'));
+                                    }
+                                });
+
+                                // ========================
+                                // COPY TO CLIPBOARD (Optional)
+                                // ========================
+                                document.querySelectorAll('td a').forEach(link => {
+                                    link.addEventListener('click', function (e) {
+                                        e.preventDefault();
+                                        const url = this.href;
+                                        navigator.clipboard.writeText(url).then(() => {
+                                            showMessage('success', 'fa-check-circle', 'URL copied to clipboard!');
+                                        }).catch(() => {
+                                            // Fallback
+                                            window.open(url, '_blank');
+                                        });
+                                    });
+                                });
+
+
+                                document.addEventListener("DOMContentLoaded", function () {
+
+                                    const copyBtn = document.getElementById("copyBtn");
+                                    const shortUrlInput = document.getElementById("shortUrl");
+
+                                    copyBtn.addEventListener("click", async function () {
+
+                                        const url = shortUrlInput.value;
+
+                                        try {
+                                            await navigator.clipboard.writeText(url);
+
+                                            copyBtn.innerText = "Copied ✓";
+
+                                            setTimeout(function () {
+                                                copyBtn.innerText = "Copy";
+                                            }, 2000);
+
+                                        } catch (error) {
+
+                                            shortUrlInput.select();
+                                            document.execCommand("copy");
+
+                                            copyBtn.innerText = "Copied ✓";
+
+                                            setTimeout(function () {
+                                                copyBtn.innerText = "Copy";
+                                            }, 2000);
+                                        }
+                                    });
+
+                                });
+
+
+                                function createAnother() {
+
+                                    document.getElementById("urlInput").value = "";
+
+                                    document.querySelector(".result-card").style.display = "none";
+
+                                    document.getElementById("urlInput").focus();
+                                }
+                            </script>
+
+    <!-- Professional Scroll Reveal Script -->
+    <script src="/js/scroll-reveal.js"></script>
+
+</body>
+
+</html>
