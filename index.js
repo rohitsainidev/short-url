@@ -184,6 +184,11 @@ app.get("/logout", (req, res) => {
   }
 });
 
+   // Test route
+    app.get("/test", (req, res) => {
+    res.send("Short URL Backend is Working!");
+});
+
 // ======================================================
 // ROUTES
 // ======================================================
