@@ -23,7 +23,7 @@ const PORT = 8001;
 // MongoDB Connection
  
 
-mongoose.connect("mongodb://127.0.0.1:27017/short-url")
+ mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log("Mongo error:", err));
 
