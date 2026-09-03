@@ -33,19 +33,15 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    padding: 8px 18px;
+    padding: 0;
     margin-bottom: 18px;
-
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    border-radius: 30px;
-
-    background: rgba(168, 85, 247, 0.08);
-
+    border: none;
+    background: transparent;
     color: #c084fc;
-
     font-size: 13px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 .features-badge i {
@@ -144,44 +140,26 @@
 ============================== */
 
 .feature-icon {
-
-    width: 58px;
-    height: 58px;
-
-    display: flex;
-
+    width: auto;
+    height: auto;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-
-    margin-bottom: 22px;
-
-    border-radius: 15px;
-
-    background: rgba(168, 85, 247, 0.08);
-
-    border: 1px solid rgba(168, 85, 247, 0.3);
-
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
     color: #c084fc;
-
-    font-size: 22px;
-
-    transition: all 0.3s ease;
+    font-size: 30px;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease, filter 0.35s ease;
 }
 
 .feature-card:hover .feature-icon {
-
-    background: linear-gradient(
-        135deg,
-        #7c3aed,
-        #a855f7
-    );
-
-    color: white;
-
-    transform: scale(1.08);
-
-    box-shadow:
-        0 10px 25px rgba(124,58,237,0.3);
+    background: transparent !important;
+    color: #d8b4fe;
+    transform: translateY(-5px) scale(1.15);
+    filter: drop-shadow(0 0 14px rgba(168, 85, 247, 0.7));
+    box-shadow: none !important;
 }
 
 

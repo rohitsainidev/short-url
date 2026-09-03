@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <link rel="stylesheet" href="/css/style.css">
 
     <!-- Font Awesome Icons -->
@@ -157,6 +158,8 @@
             color: rgba(255, 255, 255, 0.25);
             font-size: 16px;
             transition: color 0.3s ease;
+            background: transparent !important;
+            border: none !important;
         }
 
         input[type="url"] {
@@ -181,7 +184,7 @@
             box-shadow: 0 0 0 4px rgba(108, 60, 224, 0.08);
         }
 
-        input[type="url"]:focus~.icon,
+        input[type="url"]:focus ~ .icon,
         .input-wrapper:focus-within .icon {
             color: #a855f7;
         }
@@ -832,13 +835,14 @@
 </head>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/features.css">
-<link rel="stylesheet" href="/css/pricing.css">
 <link rel="stylesheet" href="/css/about.css">
 <link rel="stylesheet" href="/css/contact.css">
+<link rel="stylesheet" href="/css/faq.css">
 <link rel="stylesheet" href="/css/footer.css">
 <link rel="stylesheet" href="/css/scroll-reveal.css">
 
 <body>
+    <%- include("partials/preloader") %>
     <%- include("partials/navbar") %>
 
         <!-- Glowing Orbs -->
@@ -863,7 +867,6 @@
 
                     <div class="input-wrapper">
                         <i class="fas fa-link icon"></i>
-
                         <input type="url" name="originalUrl" placeholder="Enter Long URL..." required id="urlInput" />
                     </div>
 
@@ -901,7 +904,6 @@
                             </div>
                         </div>
 
-
                         <div class="action-buttons">
 
                             <a href="/<%= shortUrl %>" target="_blank" class="open-btn">
@@ -925,13 +927,11 @@
         </section>
 
         <!-- FEATURES SECTION -->
-
         <%- include("pages/features") %>
-
-            <%- include("pages/pricing") %>
-                <%- include("pages/about") %>
-                    <%- include("pages/contact") %>
-                        <%- include("pages/footer") %>
+        <%- include("pages/about") %>
+        <%- include("pages/contact") %>
+        <%- include("pages/faq") %>
+        <%- include("pages/footer") %>
                             <!-- ===== PROFESSIONAL LOADER OVERLAY ===== -->
                             <div id="loaderOverlay">
                                 <!-- Floating particles -->

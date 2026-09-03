@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <title>Profile | ShortURL</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -13,7 +14,7 @@
     <link rel="stylesheet" href="/css/scroll-reveal.css">
 </head>
 <body>
-
+    <%- include("../partials/preloader") %>
     <%- include("../partials/sidebar") %>
 
     <main class="main-content">
@@ -54,7 +55,10 @@
                     <div class="user-avatar-wrap" id="avatarWrap" onclick="document.getElementById('avatarFileInput').click();" title="Click to upload/change photo">
                         <div id="avatarDisplay" class="avatar-display-inner">
                             <% if (locals.user && locals.user.profilePic && locals.user.profilePic.trim() !== '') { %>
-                                <img src="<%= locals.user.profilePic %>" alt="<%= locals.user.name || 'User' %>" class="user-avatar-img" id="avatarImg">
+                                <img src="<%= locals.user.profilePic %>" alt="<%= locals.user.name || 'User' %>" class="user-avatar-img" id="avatarImg" referrerpolicy="no-referrer" onerror="this.onerror=null; this.style.display='none'; document.getElementById('avatarLetterFallback').style.display='flex';">
+                                <div class="user-avatar-letter" id="avatarLetterFallback" style="display: none;">
+                                    <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
+                                </div>
                             <% } else { %>
                                 <div class="user-avatar-letter" id="avatarLetter">
                                     <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
@@ -70,32 +74,19 @@
 
                     <!-- Hidden File Input for Image Upload -->
                     <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleAvatarSelected(event)">
-
-                    <!-- Quick Avatar Action Buttons -->
-                    <div class="avatar-btns-row">
-                        <button type="button" class="btn-avatar-action upload" onclick="document.getElementById('avatarFileInput').click();">
-                            <i class="fas fa-camera"></i>
-                            <span id="uploadBtnText"><%= (locals.user && locals.user.profilePic) ? 'Change Photo' : 'Upload Photo' %></span>
-                        </button>
-
-                        <button type="button" class="btn-avatar-action remove" id="btnRemoveAvatar" 
-                            style="<%= (locals.user && locals.user.profilePic) ? 'display: inline-flex;' : 'display: none;' %>" 
-                            onclick="removeAvatarPhoto()">
-                            <i class="fas fa-trash-alt"></i> Remove
-                        </button>
-                    </div>
                 </div>
 
-                <!-- User Details + WhatsApp-style Inline Pencil Name Edit -->
+                <!-- User Details + Actions -->
                 <div class="user-hero-details">
 
-                    <!-- Name Row (View Mode + Inline Edit Form) -->
+                    <!-- Name Row (View Mode) -->
                     <div class="user-name-row" id="nameViewWrap">
-                        <h2 id="heroDisplayName"><%= (locals.user && locals.user.name) ? locals.user.name : 'User' %></h2>
-                        <button type="button" class="btn-pen-edit" id="btnEditName" onclick="toggleInlineEdit(true)" title="Edit Name">
-                            <i class="fas fa-pen"></i>
-                        </button>
-                        <span class="badge-verified"><i class="fas fa-shield-check"></i> Active Member</span>
+                        <div class="name-edit-group">
+                            <h2 id="heroDisplayName"><%= (locals.user && locals.user.name) ? locals.user.name : 'User' %></h2>
+                            <button type="button" class="btn-pen-edit" id="btnEditName" onclick="toggleInlineEdit(true)" title="Edit Name">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Inline Edit Form (Hidden by default) -->
@@ -111,10 +102,20 @@
                         </div>
                     </form>
 
-                    <p class="user-email-text"><i class="fas fa-envelope"></i> <%= (locals.user && locals.user.email) ? locals.user.email : 'user@example.com' %></p>
-                    <span class="user-join-date">
-                        <i class="fas fa-calendar-alt"></i> Member since <%= (locals.user && locals.user.createdAt) ? new Date(locals.user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recently' %>
-                    </span>
+                    <!-- Quick Avatar Action Buttons -->
+                    <div class="avatar-btns-row">
+                        <button type="button" class="btn-avatar-action upload" onclick="document.getElementById('avatarFileInput').click();">
+                            <i class="fas fa-camera"></i>
+                            <span id="uploadBtnText"><%= (locals.user && locals.user.profilePic) ? 'Change Photo' : 'Upload Photo' %></span>
+                        </button>
+
+                        <button type="button" class="btn-avatar-action remove" id="btnRemoveAvatar" 
+                            <% if (!locals.user || !locals.user.profilePic) { %>style="display: none;"<% } %>
+                            onclick="removeAvatarPhoto()">
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Remove</span>
+                        </button>
+                    </div>
                 </div>
 
             </div>
@@ -144,8 +145,8 @@
                     </div>
                     <div class="sec-action-wrap">
                         <span class="sec-value email-value" id="userEmailText"><%= (locals.user && locals.user.email) ? locals.user.email : '' %></span>
-                        <button type="button" class="btn-sec-action" onclick="copyUserEmail()" title="Copy Email">
-                            <i class="fas fa-copy"></i>
+                        <button type="button" class="btn-sec-action" id="btnCopyEmail" onclick="copyUserEmail()" title="Copy Email">
+                            <i class="fas fa-copy" id="copyBtnIcon"></i>
                             <span id="copyBtnText">Copy</span>
                         </button>
                     </div>
@@ -296,21 +297,51 @@
             }, 3500);
         }
 
-        // Copy Email Helper
+        // Copy Email Helper (In-place copy without popup)
         function copyUserEmail() {
-            const email = document.getElementById('userEmailText').textContent.trim();
+            const emailEl = document.getElementById('userEmailText');
+            const email = emailEl ? emailEl.textContent.trim() : '';
             if (!email) return;
 
-            navigator.clipboard.writeText(email).then(() => {
-                const btnText = document.getElementById('copyBtnText');
-                btnText.textContent = 'Copied!';
-                showToast('Email address copied to clipboard!');
+            const btn = document.getElementById('btnCopyEmail');
+            const btnText = document.getElementById('copyBtnText');
+            const btnIcon = document.getElementById('copyBtnIcon');
+
+            function onCopySuccess() {
+                if (btn) btn.classList.add('copied');
+                if (btnIcon) btnIcon.className = 'fas fa-check';
+                if (btnText) btnText.textContent = 'Copied!';
+
                 setTimeout(() => {
-                    btnText.textContent = 'Copy';
-                }, 2500);
-            }).catch(() => {
-                showToast('Failed to copy email', false);
-            });
+                    if (btn) btn.classList.remove('copied');
+                    if (btnIcon) btnIcon.className = 'fas fa-copy';
+                    if (btnText) btnText.textContent = 'Copy';
+                }, 2000);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email).then(onCopySuccess).catch(() => {
+                    fallbackCopyEmail(email, onCopySuccess);
+                });
+            } else {
+                fallbackCopyEmail(email, onCopySuccess);
+            }
+        }
+
+        function fallbackCopyEmail(text, callback) {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            temp.style.position = 'fixed';
+            temp.style.left = '-9999px';
+            document.body.appendChild(temp);
+            temp.select();
+            try {
+                document.execCommand('copy');
+                if (callback) callback();
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+            document.body.removeChild(temp);
         }
 
         // Password Form Accordion Toggle
@@ -493,16 +524,16 @@
                     const data = await res.json();
                     if (data.success) {
                         const displayDiv = document.getElementById('avatarDisplay');
-                        displayDiv.innerHTML = `<img src="${base64Image}" alt="Profile Photo" class="user-avatar-img" id="avatarImg">`;
+                        displayDiv.innerHTML = `<img src="${base64Image}" alt="Profile Photo" class="user-avatar-img" id="avatarImg" referrerpolicy="no-referrer">`;
                         
                         document.getElementById('btnRemoveAvatar').style.display = 'inline-flex';
                         document.getElementById('uploadBtnText').textContent = 'Change Photo';
 
                         // Sync with Sidebar & Mobile Nav Avatar
                         const sbBox = document.getElementById('sidebarProfileAvatarBox');
-                        if (sbBox) sbBox.innerHTML = `<img src="${base64Image}" alt="Profile" class="sidebar-user-avatar-img" id="sidebarAvatarImg">`;
+                        if (sbBox) sbBox.innerHTML = `<img src="${base64Image}" alt="Profile" class="sidebar-user-avatar-img" id="sidebarAvatarImg" referrerpolicy="no-referrer">`;
                         const mbBox = document.getElementById('mobileProfileAvatarBox');
-                        if (mbBox) mbBox.innerHTML = `<img src="${base64Image}" alt="Profile" class="sidebar-user-avatar-img" id="mobileAvatarImg">`;
+                        if (mbBox) mbBox.innerHTML = `<img src="${base64Image}" alt="Profile" class="sidebar-user-avatar-img" id="mobileAvatarImg" referrerpolicy="no-referrer">`;
 
                         showToast('Profile photo updated successfully!');
                     } else {

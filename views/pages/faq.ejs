@@ -1,0 +1,132 @@
+<section id="faq" class="faq-section">
+    <div class="faq-container">
+
+        <!-- FAQ Header -->
+        <div class="faq-header">
+            <span class="faq-badge">
+                <i class="fas fa-circle-question"></i> FAQ
+            </span>
+            <h2>Frequently Asked <span>Questions</span></h2>
+            <p>Everything you need to know about link shortening, analytics, and security.</p>
+        </div>
+
+        <!-- FAQ Accordion List -->
+        <div class="faq-accordion">
+
+            <!-- Question 1 -->
+            <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                    <span class="faq-q-title">
+                        <i class="fas fa-bolt-lightning faq-q-icon"></i>
+                        Is ShortURL completely free to use?
+                    </span>
+                    <i class="fas fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, 100%! ShortURL provides unlimited URL shortening, instant 302 redirects, and real-time click tracking completely free of charge. There are no paywalls, hidden fees, or credit card requirements.</p>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                    <span class="faq-q-title">
+                        <i class="fas fa-clock faq-q-icon"></i>
+                        Do shortened links ever expire?
+                    </span>
+                    <i class="fas fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>No, your shortened links do not expire. Once generated, they remain active permanently and will always redirect to your destination URL unless you choose to delete them from your dashboard.</p>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                    <span class="faq-q-title">
+                        <i class="fas fa-chart-pie faq-q-icon"></i>
+                        What data is tracked in the Analytics Dashboard?
+                    </span>
+                    <i class="fas fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Our analytics dashboard tracks total click counts, visitor device breakdown (Desktop, Mobile, Tablet), browser details, and time-stamped activity. You can see real-time charts showing your traffic performance over time.</p>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                    <span class="faq-q-title">
+                        <i class="fas fa-user-check faq-q-icon"></i>
+                        Do I need an account to shorten a link?
+                    </span>
+                    <i class="fas fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>No, you can immediately paste any link on our homepage and shorten it in under a second without signing up. However, creating a free account allows you to track all your links in one place and view full analytics.</p>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                    <span class="faq-q-title">
+                        <i class="fas fa-shield-halved faq-q-icon"></i>
+                        Are my links and visitor data safe?
+                    </span>
+                    <i class="fas fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. We respect privacy and never sell visitor data or inject interstitial popups or advertisements. All user accounts are secured with bcrypt password encryption and signed HTTP-only JWT cookies.</p>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                    <span class="faq-q-title">
+                        <i class="fas fa-trash-can faq-q-icon"></i>
+                        Can I delete a link after creating it?
+                    </span>
+                    <i class="fas fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes! If you are logged into your account, all links you create appear in your Analytics Dashboard where you can delete any link at any time with a single click.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- FAQ Accordion Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    faqItems.forEach(item => {
+        const btn = item.querySelector(".faq-question");
+        if (!btn) return;
+
+        btn.addEventListener("click", () => {
+            const isOpen = item.classList.contains("active");
+
+            // Close all items smoothly
+            faqItems.forEach(otherItem => {
+                otherItem.classList.remove("active");
+                const otherBtn = otherItem.querySelector(".faq-question");
+                if (otherBtn) otherBtn.setAttribute("aria-expanded", "false");
+            });
+
+            // If it wasn't open, open it
+            if (!isOpen) {
+                item.classList.add("active");
+                btn.setAttribute("aria-expanded", "true");
+            }
+        });
+    });
+});
+</script>

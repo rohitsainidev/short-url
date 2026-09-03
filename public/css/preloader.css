@@ -1,0 +1,67 @@
+/* ========================================================
+   MINIMAL & PROFESSIONAL SPINNER PRELOADER
+   ======================================================== */
+
+#page-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a1a;
+    overflow: hidden;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    user-select: none;
+}
+
+.preloader-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Minimal Modern Spinner */
+.preloader-spinner-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preloader-spinner {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.08);
+    border-top-color: #00d4ff;
+    border-right-color: #6c3ce0;
+    animation: preloaderSpin 0.75s linear infinite;
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+}
+
+@keyframes preloaderSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Seamless Fade-out */
+#page-preloader.preloader-fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#page-preloader.preloader-hidden {
+    display: none !important;
+}

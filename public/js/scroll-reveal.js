@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { selector: '.shortener-section .container', effect: 'reveal-zoom', delay: '' },
         { selector: '.features-heading', effect: 'reveal-up', delay: '' },
         { selector: '.features-grid .feature-card', effect: 'reveal-up', stagger: true },
-        { selector: '.pricing-heading', effect: 'reveal-up', delay: '' },
-        { selector: '.pricing-grid .pricing-card', effect: 'reveal-up', stagger: true },
         { selector: '.about-heading', effect: 'reveal-up', delay: '' },
         { selector: '.about-grid .about-card', effect: 'reveal-up', stagger: true },
         { selector: '.about-stats .stat-box', effect: 'reveal-up', stagger: true },
@@ -18,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { selector: '.contact-wrapper', effect: 'reveal-up', delay: 'delay-1' },
         { selector: '.contact-info-card', effect: 'reveal-left', delay: '' },
         { selector: '.contact-form-card', effect: 'reveal-right', delay: '' },
+        { selector: '.faq-header', effect: 'reveal-up', delay: '' },
+        { selector: '.faq-accordion .faq-item', effect: 'reveal-up', stagger: true },
         { selector: '.footer-container', effect: 'reveal-up', delay: '' },
         { selector: '.recent-section', effect: 'reveal-up', delay: '' },
         { selector: '.analytics-card', effect: 'reveal-up', stagger: true }

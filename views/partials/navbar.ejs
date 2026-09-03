@@ -37,11 +37,6 @@
                 </a>
             </li>
 
-            <li>
-                <a href="/#pricing" class="nav-link">
-                    <i class="fas fa-tags"></i> <span>Pricing</span>
-                </a>
-            </li>
 
             <li>
                 <a href="/#about" class="nav-link">
@@ -69,7 +64,10 @@
                     <button type="button" class="nav-avatar-trigger" id="navAvatarTrigger" aria-label="Open User Menu" aria-expanded="false">
                         <div class="nav-avatar-circle">
                             <% if (currentUser.profilePic && currentUser.profilePic.trim() !== '') { %>
-                                <img src="<%= currentUser.profilePic %>" alt="<%= currentUser.name || 'User' %>" class="nav-avatar-img">
+                                <img src="<%= currentUser.profilePic %>" alt="<%= currentUser.name || 'User' %>" class="nav-avatar-img" referrerpolicy="no-referrer" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="nav-avatar-letter" style="display: none;">
+                                    <%= (currentUser.name) ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
+                                </div>
                             <% } else { %>
                                 <div class="nav-avatar-letter">
                                     <%= (currentUser.name) ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
@@ -84,7 +82,10 @@
                         <div class="nav-dropdown-header">
                             <div class="nav-dropdown-avatar">
                                 <% if (currentUser.profilePic && currentUser.profilePic.trim() !== '') { %>
-                                    <img src="<%= currentUser.profilePic %>" alt="<%= currentUser.name || 'User' %>" class="nav-avatar-img">
+                                    <img src="<%= currentUser.profilePic %>" alt="<%= currentUser.name || 'User' %>" class="nav-avatar-img" referrerpolicy="no-referrer" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div class="nav-avatar-letter" style="display: none;">
+                                        <%= (currentUser.name) ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
+                                    </div>
                                 <% } else { %>
                                     <div class="nav-avatar-letter">
                                         <%= (currentUser.name) ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
@@ -132,7 +133,10 @@
                     <div class="mobile-user-card">
                         <div class="mobile-user-avatar">
                             <% if (currentUser.profilePic && currentUser.profilePic.trim() !== '') { %>
-                                <img src="<%= currentUser.profilePic %>" alt="<%= currentUser.name || 'User' %>" class="nav-avatar-img">
+                                <img src="<%= currentUser.profilePic %>" alt="<%= currentUser.name || 'User' %>" class="nav-avatar-img" referrerpolicy="no-referrer" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="nav-avatar-letter" style="display: none;">
+                                    <%= (currentUser.name) ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
+                                </div>
                             <% } else { %>
                                 <div class="nav-avatar-letter">
                                     <%= (currentUser.name) ? currentUser.name.charAt(0).toUpperCase() : 'U' %>
@@ -146,22 +150,29 @@
                     </div>
 
                     <a href="/dashboard" class="mobile-btn-dashboard">
-                        <i class="fas fa-th-large"></i>
-                        <span>Go to Dashboard</span>
+                        <div class="btn-dash-inner">
+                            <i class="fas fa-th-large"></i>
+                            <span>Open Dashboard</span>
+                        </div>
+                        <i class="fas fa-arrow-right btn-dash-arrow"></i>
                     </a>
 
                     <div class="mobile-quick-links">
-                        <a href="/dashboard/myurls" class="mobile-sublink">
-                            <i class="fas fa-link"></i> My URLs
+                        <a href="/dashboard/myurls" class="mobile-sublink item-myurls">
+                            <div class="sublink-icon"><i class="fas fa-link"></i></div>
+                            <span class="sublink-text">My URLs</span>
                         </a>
-                        <a href="/dashboard/analytics" class="mobile-sublink">
-                            <i class="fas fa-chart-pie"></i> Analytics
+                        <a href="/dashboard/analytics" class="mobile-sublink item-analytics">
+                            <div class="sublink-icon"><i class="fas fa-chart-pie"></i></div>
+                            <span class="sublink-text">Analytics</span>
                         </a>
-                        <a href="/dashboard/profile" class="mobile-sublink">
-                            <i class="fas fa-user-gear"></i> Profile
+                        <a href="/dashboard/profile" class="mobile-sublink item-profile">
+                            <div class="sublink-icon"><i class="fas fa-user-gear"></i></div>
+                            <span class="sublink-text">Profile</span>
                         </a>
-                        <a href="/user/logout" class="mobile-sublink logout">
-                            <i class="fas fa-sign-out-alt"></i> Sign Out
+                        <a href="/user/logout" class="mobile-sublink item-logout">
+                            <div class="sublink-icon"><i class="fas fa-arrow-right-from-bracket"></i></div>
+                            <span class="sublink-text">Sign Out</span>
                         </a>
                     </div>
                 </li>

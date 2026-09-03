@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <title>Analytics | ShortURL</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -14,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
+<%- include("../partials/preloader") %>
 <%- include("../partials/sidebar") %>
 
 <main class="main-content">
@@ -40,7 +41,7 @@
                 <i class="fas fa-link"></i>
             </div>
             <div class="stat-info">
-                <h2><%= (stats && stats.totalUrls) ? stats.totalUrls : 0 %></h2>
+                <h2 id="statTotalUrls"><%= (stats && stats.totalUrls) ? stats.totalUrls : 0 %></h2>
                 <p>Total URLs</p>
             </div>
             <div class="stat-change positive">
@@ -53,7 +54,7 @@
                 <i class="fas fa-mouse-pointer"></i>
             </div>
             <div class="stat-info">
-                <h2><%= (stats && stats.totalClicks) ? stats.totalClicks : 0 %></h2>
+                <h2 id="statTotalClicks"><%= (stats && stats.totalClicks) ? stats.totalClicks : 0 %></h2>
                 <p>Total Clicks</p>
             </div>
             <div class="stat-change positive">
@@ -176,7 +177,7 @@
                     <i class="fas fa-search"></i>
                     <input type="text" id="analyticsSearchInput" placeholder="Filter links...">
                 </div>
-                <span class="total-count"><%= urls ? urls.length : 0 %> URLs Total</span>
+                <span class="total-count" id="tableTotalCount"><%= urls ? urls.length : 0 %> URLs Total</span>
             </div>
         </div>
 
@@ -189,14 +190,15 @@
                         <th>Destination URL</th>
                         <th>Clicks</th>
                         <th>Created Date</th>
-                        <th style="min-width: 160px;">Traffic Share</th>
+                        <th style="min-width: 150px;">Traffic Share</th>
+                        <th style="width: 70px; text-align: center;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% if (urls && urls.length > 0) { %>
                         <% const maxClicks = Math.max(...urls.map(u => u.clicks || 0), 1); %>
                         <% urls.forEach(function(url, index) { %>
-                            <tr>
+                            <tr id="url-row-<%= url._id %>" data-clicks="<%= url.clicks || 0 %>">
                                 <td><span class="row-number"><%= index + 1 %></span></td>
                                 <td>
                                     <span class="short-url">
@@ -229,15 +231,21 @@
                                             </span>
                                         </div>
                                         <div class="performance-bar">
-                                            <div class="performance-fill" style="width: <%= maxClicks > 0 ? Math.round((Number(url.clicks || 0) / maxClicks) * 100) : 0 %>%;"></div>
+                                            <% const sharePct = maxClicks > 0 ? Math.round((Number(url.clicks || 0) / maxClicks) * 100) : 0; %>
+                                            <div class="performance-fill" <%- `style="width: ${sharePct}%;"` %>></div>
                                         </div>
                                     </div>
+                                </td>
+                                <td style="text-align: center;">
+                                    <button type="button" class="btn-table-delete" id="del-btn-<%= url._id %>" onclick="deleteUrl('<%= url._id %>', this)" title="Delete Link">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
                                 </td>
                             </tr>
                         <% }); %>
                     <% } else { %>
-                        <tr>
-                            <td colspan="6" class="empty">
+                        <tr class="empty-row">
+                            <td colspan="7" class="empty">
                                 <i class="fas fa-inbox" style="font-size: 2.2rem; display: block; margin-bottom: 0.5rem; color: rgba(255,255,255,0.2);"></i>
                                 No URLs Found
                             </td>
@@ -250,6 +258,7 @@
                       
 </main>
 
+<script id="analyticsData" type="application/json"><%- JSON.stringify(urls || []) %></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -260,7 +269,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get data safely
     let urls = [];
     try {
-        urls = <%- JSON.stringify(urls || []) %>;
+        const dataEl = document.getElementById('analyticsData');
+        urls = dataEl ? JSON.parse(dataEl.textContent || '[]') : [];
     } catch(e) {
         console.error("Error parsing urls:", e);
         urls = [];
@@ -506,6 +516,106 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// 4. DELETE URL HELPER (IN-PLACE, ZERO ALERT)
+async function deleteUrl(id, btn) {
+    if (!btn) btn = document.getElementById(`del-btn-${id}`);
+    const row = document.getElementById(`url-row-${id}`);
+    if (!row) return;
+
+    // In-place loading state on button - ZERO alert modal
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin" style="color: #c084fc;"></i>`;
+        btn.style.opacity = "0.8";
+    }
+
+    try {
+        const res = await fetch(`/url/${id}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            // 1. In-place checkmark
+            if (btn) {
+                btn.innerHTML = `<i class="fas fa-check" style="color: #4ade80;"></i>`;
+            }
+
+            // 2. Smoothly slide and fade the row
+            row.style.transition = "all 0.35s cubic-bezier(0.4, 0, 0.2, 1)";
+            row.style.opacity = "0";
+            row.style.transform = "translateX(40px)";
+            row.style.background = "rgba(239, 68, 68, 0.12)";
+
+            setTimeout(() => {
+                const urlClicks = parseInt(row.getAttribute("data-clicks") || "0", 10);
+                row.remove();
+
+                // 3. Update Total URLs in Stats Card
+                const totalUrlsEl = document.getElementById("statTotalUrls");
+                if (totalUrlsEl) {
+                    const currentTotal = parseInt(totalUrlsEl.innerText.replace(/,/g, "") || "0", 10);
+                    totalUrlsEl.innerText = Math.max(0, currentTotal - 1);
+                }
+
+                // 4. Update Total Clicks in Stats Card
+                const totalClicksEl = document.getElementById("statTotalClicks");
+                if (totalClicksEl && urlClicks > 0) {
+                    const currentClicks = parseInt(totalClicksEl.innerText.replace(/,/g, "") || "0", 10);
+                    totalClicksEl.innerText = Math.max(0, currentClicks - urlClicks);
+                }
+
+                // 5. Update Table Total Count badge
+                const tableCountEl = document.getElementById("tableTotalCount");
+                const remainingRows = document.querySelectorAll("#analyticsTable tbody tr:not(.empty-row)");
+                if (tableCountEl) {
+                    tableCountEl.innerText = `${remainingRows.length} URLs Total`;
+                }
+
+                // 6. Update Row Numbers (# column)
+                remainingRows.forEach((r, idx) => {
+                    const numEl = r.querySelector(".row-number");
+                    if (numEl) numEl.innerText = idx + 1;
+                });
+
+                // 7. If all rows deleted, show empty state
+                if (remainingRows.length === 0) {
+                    const tbody = document.querySelector("#analyticsTable tbody");
+                    if (tbody) {
+                        tbody.innerHTML = `
+                            <tr class="empty-row">
+                                <td colspan="7" class="empty">
+                                    <i class="fas fa-inbox" style="font-size: 2.2rem; display: block; margin-bottom: 0.5rem; color: rgba(255,255,255,0.2);"></i>
+                                    No URLs Found
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }
+            }, 350);
+        } else {
+            // Revert on failure without alert popup
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fas fa-times" style="color: #ef4444;"></i>`;
+                setTimeout(() => {
+                    btn.innerHTML = `<i class="fas fa-trash-can"></i>`;
+                }, 1500);
+            }
+        }
+    } catch (err) {
+        console.error("Delete URL error:", err);
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fas fa-times" style="color: #ef4444;"></i>`;
+            setTimeout(() => {
+                btn.innerHTML = `<i class="fas fa-trash-can"></i>`;
+            }, 1500);
+        }
+    }
+}
 </script>
 </body>
 </html>

@@ -49,37 +49,11 @@ router.get("/", async (req, res) => {
 
 
 // ======================================================
-// MY URLS
+// MY URLS (Redirect to Dashboard My URLs)
 // ======================================================
 
-router.get("/myurls", async (req, res) => {
-    try {
-        const user =
-            req.user ||
-            res.locals.user ||
-            (req.session && req.session.user) ||
-            null;
-
-        if (!user) {
-            return res.redirect("/user/login");
-        }
-
-        const urls = await Url.find({
-            createdBy: user._id
-        }).sort({
-            createdAt: -1
-        });
-
-        return res.render("myurls", {
-            user,
-            urls
-        });
-
-    } catch (error) {
-        console.error("My URLs Error:", error);
-
-        return res.status(500).send("Unable to load your URLs");
-    }
+router.get("/myurls", (req, res) => {
+    return res.redirect("/dashboard/myurls");
 });
 
 

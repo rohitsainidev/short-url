@@ -51,7 +51,10 @@
         <a href="/dashboard/profile" class="sidebar-link" data-path="/dashboard/profile" title="Profile">
             <div class="nav-icon-box sidebar-profile-avatar-box" id="sidebarProfileAvatarBox">
                 <% if (locals.user && locals.user.profilePic && locals.user.profilePic.trim() !== '') { %>
-                    <img src="<%= locals.user.profilePic %>" alt="Profile" class="sidebar-user-avatar-img" id="sidebarAvatarImg">
+                    <img src="<%= locals.user.profilePic %>" alt="Profile" class="sidebar-user-avatar-img" id="sidebarAvatarImg" referrerpolicy="no-referrer" onerror="this.onerror=null; this.style.display='none'; document.getElementById('sidebarAvatarLetterFallback').style.display='flex';">
+                    <div class="sidebar-user-avatar-letter" id="sidebarAvatarLetterFallback" style="display: none;">
+                        <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
+                    </div>
                 <% } else { %>
                     <div class="sidebar-user-avatar-letter" id="sidebarAvatarLetter">
                         <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
@@ -108,14 +111,19 @@
 
     <!-- Mobile Nav Profile Item with Dynamic User Photo / Letter Avatar -->
     <a href="/dashboard/profile" class="mobile-nav-item" data-path="/dashboard/profile">
-        <div class="nav-icon-wrap sidebar-profile-avatar-box" id="mobileProfileAvatarBox">
-            <% if (locals.user && locals.user.profilePic && locals.user.profilePic.trim() !== '') { %>
-                <img src="<%= locals.user.profilePic %>" alt="Profile" class="sidebar-user-avatar-img" id="mobileAvatarImg">
-            <% } else { %>
-                <div class="sidebar-user-avatar-letter" id="mobileAvatarLetter">
-                    <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
-                </div>
-            <% } %>
+        <div class="nav-icon-wrap">
+            <div class="sidebar-profile-avatar-box" id="mobileProfileAvatarBox">
+                <% if (locals.user && locals.user.profilePic && locals.user.profilePic.trim() !== '') { %>
+                    <img src="<%= locals.user.profilePic %>" alt="Profile" class="sidebar-user-avatar-img" id="mobileAvatarImg" referrerpolicy="no-referrer" onerror="this.onerror=null; this.style.display='none'; document.getElementById('mobileAvatarLetterFallback').style.display='flex';">
+                    <div class="sidebar-user-avatar-letter" id="mobileAvatarLetterFallback" style="display: none;">
+                        <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
+                    </div>
+                <% } else { %>
+                    <div class="sidebar-user-avatar-letter" id="mobileAvatarLetter">
+                        <%= (locals.user && locals.user.name) ? locals.user.name.charAt(0).toUpperCase() : 'U' %>
+                    </div>
+                <% } %>
+            </div>
         </div>
         <span>Profile</span>
     </a>

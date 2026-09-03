@@ -16,6 +16,7 @@
     width: 90%;
     max-width: 1100px;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 /* Heading */
@@ -29,15 +30,14 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    padding: 7px 16px;
+    padding: 0;
     margin-bottom: 16px;
-    border-radius: 20px;
-    background: rgba(168, 85, 247, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.28);
+    background: transparent;
+    border: none;
     color: #c084fc;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
 }
 
@@ -84,6 +84,9 @@
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
 }
 
 .contact-info-header {
@@ -94,17 +97,24 @@
 }
 
 .contact-brand-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #6c3ce0, #a855f7);
-    color: #ffffff;
-    display: flex;
+    width: auto;
+    height: auto;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #c084fc;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    box-shadow: 0 4px 16px rgba(108, 60, 224, 0.4);
+    font-size: 26px;
     flex-shrink: 0;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease, filter 0.35s ease;
+}
+
+.contact-info-card:hover .contact-brand-icon {
+    transform: translateY(-2px) scale(1.12);
+    color: #d8b4fe;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.7));
 }
 
 .contact-info-header h3 {
@@ -141,6 +151,14 @@
     transition: all 0.2s ease;
 }
 
+div.contact-method-item {
+    cursor: default;
+}
+
+a.contact-method-item {
+    cursor: pointer;
+}
+
 .contact-method-item:hover {
     background: rgba(168, 85, 247, 0.08);
     border-color: rgba(168, 85, 247, 0.25);
@@ -148,16 +166,24 @@
 }
 
 .method-icon-box {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: rgba(168, 85, 247, 0.12);
+    width: auto;
+    height: auto;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
     color: #c084fc;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: 20px;
     flex-shrink: 0;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease, filter 0.35s ease;
+}
+
+.contact-method-item:hover .method-icon-box {
+    transform: translateY(-2px) scale(1.18);
+    color: #d8b4fe;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
 }
 
 .method-details {
@@ -219,22 +245,23 @@
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.7);
+    background: transparent !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    font-size: 14px;
-    transition: all 0.2s ease;
+    font-size: 16px;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease, filter 0.3s ease;
 }
 
 .contact-social-icons a:hover {
-    background: rgba(168, 85, 247, 0.2);
-    border-color: #a855f7;
-    color: #ffffff;
-    transform: translateY(-2px);
+    background: transparent !important;
+    border: none !important;
+    color: #c084fc;
+    transform: translateY(-3px) scale(1.25);
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.8));
 }
 
 /* Right Form Card */
@@ -246,6 +273,9 @@
     border-radius: 20px;
     padding: 36px 32px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
 }
 
 .form-title {
@@ -396,12 +426,134 @@
 
 /* Responsive */
 @media (max-width: 820px) {
-    .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
+    .contact-section {
+        padding: 60px 0 50px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .contact-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 20px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .contact-heading {
+        margin: 0 auto 32px;
+        padding: 0 10px;
     }
 
     .contact-heading h2 {
-        font-size: 32px;
+        font-size: 28px;
+    }
+
+    .contact-heading p {
+        font-size: 14px;
+    }
+
+    .contact-grid {
+        grid-template-columns: 100%;
+        gap: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .contact-info-card,
+    .contact-form-card {
+        padding: 26px 20px;
+        border-radius: 18px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .contact-info-header {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .contact-brand-icon {
+        width: auto;
+        height: auto;
+        font-size: 22px;
+    }
+
+    .contact-info-header h3 {
+        font-size: 17px;
+    }
+
+    .contact-method-item {
+        padding: 12px 14px;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .method-icon-box {
+        width: auto;
+        height: auto;
+        font-size: 18px;
+    }
+
+    .method-details {
+        min-width: 0;
+        overflow: hidden;
+        flex: 1;
+    }
+
+    .method-value {
+        font-size: 13px;
+        word-break: break-all;
+    }
+
+    .contact-social-wrap {
+        padding-top: 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-container {
+        padding: 0 14px;
+    }
+
+    .contact-info-card,
+    .contact-form-card {
+        padding: 20px 14px;
+        border-radius: 16px;
+    }
+
+    .contact-heading h2 {
+        font-size: 24px;
+    }
+
+    .contact-method-item {
+        padding: 11px 12px;
+        gap: 10px;
+    }
+
+    .method-value {
+        font-size: 12.5px;
+    }
+
+    .form-input-wrap input,
+    .form-input-wrap textarea {
+        padding: 11px 12px 11px 36px;
+        font-size: 13.5px;
+    }
+
+    .form-input-wrap .input-ico {
+        left: 12px;
+        font-size: 13px;
+    }
+
+    .btn-send-message {
+        padding: 12px;
+        font-size: 13.5px;
     }
 }

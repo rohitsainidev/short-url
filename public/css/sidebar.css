@@ -205,23 +205,35 @@
     color: #a855f7;
 }
 
-/* Sidebar Profile Avatar Badge - Clean & Crystal Clear */
-.sidebar-profile-avatar-box {
-    width: 22px;
-    height: 22px;
+/* Sidebar Profile Avatar Badge - Clean & Strictly Round (1:1 Aspect Ratio) */
+.sidebar-profile-avatar-box,
+#sidebarProfileAvatarBox,
+#mobileProfileAvatarBox {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    max-width: 24px;
+    max-height: 24px;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
     background: #121224;
+    padding: 0;
 }
 
-.sidebar-user-avatar-img {
+.sidebar-user-avatar-img,
+#sidebarAvatarImg,
+#mobileAvatarImg {
     width: 100%;
     height: 100%;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
@@ -229,9 +241,12 @@
     image-rendering: -webkit-optimize-contrast;
 }
 
-.sidebar-user-avatar-letter {
+.sidebar-user-avatar-letter,
+#sidebarAvatarLetter,
+#mobileAvatarLetter {
     width: 100%;
     height: 100%;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     background: #7c3aed;
     color: #ffffff;
@@ -616,6 +631,36 @@ body.sidebar-mini .main-content {
         border-radius: 99px;
         background: linear-gradient(90deg, #6c3ce0, #a855f7);
         box-shadow: 0 0 8px rgba(168, 85, 247, 0.8);
+    }
+
+    .mobile-nav-item .sidebar-profile-avatar-box,
+    #mobileProfileAvatarBox {
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
+        min-height: 24px !important;
+        max-width: 24px !important;
+        max-height: 24px !important;
+        aspect-ratio: 1 / 1 !important;
+        border-radius: 50% !important;
+        overflow: hidden !important;
+    }
+
+    .mobile-nav-item .sidebar-profile-avatar-box .sidebar-user-avatar-img,
+    #mobileProfileAvatarBox .sidebar-user-avatar-img,
+    #mobileAvatarImg {
+        width: 100% !important;
+        height: 100% !important;
+        aspect-ratio: 1 / 1 !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+
+    .mobile-nav-item.active .sidebar-profile-avatar-box,
+    .mobile-nav-item.active #mobileProfileAvatarBox {
+        border-color: #a855f7 !important;
+        box-shadow: 0 0 10px rgba(168, 85, 247, 0.75) !important;
     }
 
     /* Center Floating Create Action Button */

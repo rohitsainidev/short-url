@@ -189,19 +189,18 @@ body {
     min-width: 0;
 }
 
-/* Avatar Manager (Circular Avatar + Action Buttons) */
+/* Avatar Manager (Circular Avatar with Camera Badge) */
 .avatar-manager {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
     flex-shrink: 0;
 }
 
 .user-avatar-wrap {
     position: relative;
-    width: 96px;
-    height: 96px;
+    width: 88px;
+    height: 88px;
     cursor: pointer;
     border-radius: 50%;
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -233,7 +232,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 42px;
+    font-size: 38px;
     font-weight: 800;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
     user-select: none;
@@ -252,16 +251,16 @@ body {
     position: absolute;
     bottom: -2px;
     right: -2px;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: linear-gradient(135deg, #6c3ce0, #a855f7);
-    border: 2.5px solid #0a0a1a;
+    border: 2.5px solid #0f0c20;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    font-size: 13px;
+    font-size: 12px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(168, 85, 247, 0.4);
     z-index: 5;
     transition: all 0.2s ease;
@@ -272,11 +271,68 @@ body {
     box-shadow: 0 6px 18px rgba(168, 85, 247, 0.6);
 }
 
-/* Avatar Buttons Row (Rounded Pills) */
+/* User Hero Details (Name Row + Action Buttons) */
+.user-hero-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.user-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+}
+
+.name-edit-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-name-row h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    word-break: break-word;
+    line-height: 1.2;
+}
+
+/* WhatsApp / Modern Sleek Pen Edit Button */
+.btn-pen-edit {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.32);
+    color: #c084fc;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-pen-edit:hover {
+    background: rgba(168, 85, 247, 0.28);
+    border-color: rgba(168, 85, 247, 0.6);
+    color: #ffffff;
+    transform: translateY(-1px) scale(1.06);
+    box-shadow: 0 4px 14px rgba(168, 85, 247, 0.3);
+}
+
+/* Avatar Buttons Row (Modern Action Pills) */
 .avatar-btns-row {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 .btn-avatar-action {
@@ -285,82 +341,43 @@ body {
     gap: 6px;
     padding: 6px 14px;
     border-radius: 99px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     font-family: inherit;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 .btn-avatar-action.upload {
-    background: none;
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
-    color: #ffffff;
+    background: rgba(168, 85, 247, 0.14);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #e9d5ff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-avatar-action.upload:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: #ffffff;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.55), rgba(168, 85, 247, 0.55));
+    border-color: rgba(168, 85, 247, 0.7);
     color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(168, 85, 247, 0.35);
 }
 
 .btn-avatar-action.remove {
-    background: rgba(239, 68, 68, 0.15);
-    border: 1px solid rgba(239, 68, 68, 0.35);
-    color: #ffffff;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.28);
+    color: #fca5a5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-avatar-action.remove:hover {
-    background: #ef4444;
+    background: rgba(239, 68, 68, 0.22);
+    border-color: rgba(239, 68, 68, 0.55);
     color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
-}
-
-.user-hero-details {
-    min-width: 0;
-}
-
-.user-name-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 6px;
-}
-
-.user-name-row h2 {
-    font-size: 24px;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: -0.3px;
-    word-break: break-word;
-}
-
-/* WhatsApp-Style Pen Edit Button */
-.btn-pen-edit {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: none;
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
-    color: #ffffff;
-    font-size: 13px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.btn-pen-edit:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: #ffffff;
-    color: #ffffff;
-    transform: scale(1.08);
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(239, 68, 68, 0.3);
 }
 
 /* Inline Name Edit Form */
@@ -368,7 +385,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 0;
     flex-wrap: wrap;
 }
 
@@ -445,17 +462,31 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 0;
-    background: none;
-    border: none;
-    font-size: 13px;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 99px;
+    font-size: 11.5px;
     font-weight: 600;
     color: #ffffff;
+    white-space: nowrap;
+    letter-spacing: 0.25px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease;
+}
+
+.badge-verified:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
 }
 
 .badge-verified i {
-    font-size: 14px;
+    font-size: 11.5px;
     color: #ffffff;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
 }
 
 .user-email-text {
@@ -625,17 +656,43 @@ body {
     transform: translateY(-1px);
 }
 
+.btn-sec-action.copied {
+    border-color: #22c55e !important;
+    color: #4ade80 !important;
+    background: rgba(34, 197, 94, 0.14) !important;
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.25) !important;
+}
+
+.btn-sec-action.copied i {
+    color: #4ade80 !important;
+}
+
 .btn-sec-action.primary {
-    background: none;
-    border: 1.5px solid rgba(255, 255, 255, 0.35);
-    color: #ffffff;
+    background: transparent;
+    border: 1px solid rgba(168, 85, 247, 0.45);
+    color: #c084fc;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-sec-action.primary i {
+    color: #a855f7;
+    font-size: 12px;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .btn-sec-action.primary:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: #ffffff;
+    background: rgba(168, 85, 247, 0.14);
+    border-color: #a855f7;
     color: #ffffff;
-    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 14px rgba(168, 85, 247, 0.25);
+    transform: translateY(-1px);
+}
+
+.btn-sec-action.primary:hover i {
+    color: #ffffff;
 }
 
 .sec-value.active-now {
@@ -664,34 +721,46 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    padding: 0;
-    background: none;
-    border: none;
     font-size: 13px;
     font-weight: 600;
-    color: #ffffff;
+    white-space: nowrap;
 }
 
 .status-pill.green {
-    background: none;
+    background: transparent;
     border: none;
+    box-shadow: none;
+    padding: 0;
     color: #ffffff;
+    letter-spacing: 0.2px;
+    transition: all 0.2s ease;
+}
+
+.status-pill.green:hover {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: #ffffff;
+    opacity: 0.9;
 }
 
 .status-pill.green i {
     font-size: 14px;
     color: #ffffff;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.45));
 }
 
 .status-pill.purple {
-    background: none;
-    border: none;
-    color: #ffffff;
+    background: transparent;
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #c084fc;
+    padding: 4px 11px;
+    border-radius: 99px;
 }
 
 .status-pill.purple i {
-    font-size: 14px;
-    color: #ffffff;
+    font-size: 12px;
+    color: #c084fc;
 }
 
 /* =========================================================
@@ -841,76 +910,297 @@ body {
 }
 
 /* =========================================================
-   RESPONSIVE (MOBILE & TABLET)
+   RESPONSIVE (MOBILE & TABLET REFINEMENTS)
 ========================================================= */
 @media (max-width: 900px) {
     .profile-grid {
         grid-template-columns: 1fr;
     }
-
-    .profile-hero {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-
-    .hero-left-wrap {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 18px;
-    }
 }
 
 @media (max-width: 768px) {
     .main-content {
-        padding: 18px 16px calc(88px + env(safe-area-inset-bottom, 0px)) 16px !important;
+        padding: 16px 14px calc(92px + env(safe-area-inset-bottom, 0px)) 14px !important;
     }
 
     .main-content .header {
         padding-left: 0;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
     }
 
     .page-title {
         font-size: 22px;
+        gap: 8px;
     }
 
+    .subtitle {
+        font-size: 13px;
+    }
+
+    /* ── Profile Hero Card (Clean Row on Mobile) ── */
     .profile-hero {
-        padding: 20px 18px;
+        padding: 18px 16px;
+        border-radius: 16px;
+        margin-bottom: 18px;
+    }
+
+    .hero-left-wrap {
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .avatar-manager {
+        gap: 6px;
+        flex-shrink: 0;
     }
 
     .user-avatar-wrap {
-        width: 74px;
-        height: 74px;
+        width: 68px;
+        height: 68px;
     }
 
     .user-avatar-letter {
-        font-size: 28px;
+        font-size: 26px;
+    }
+
+    .avatar-cam-badge {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+        bottom: -2px;
+        right: -2px;
+    }
+
+    .avatar-btns-row {
+        gap: 8px;
+    }
+
+    .btn-avatar-action {
+        padding: 5px 12px;
+        font-size: 11.5px;
+    }
+
+    .user-hero-details {
+        min-width: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .user-name-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 0;
     }
 
     .user-name-row h2 {
-        font-size: 20px;
+        font-size: 19px;
+        letter-spacing: -0.2px;
     }
 
-    .profile-card {
-        padding: 20px 18px;
+    .btn-pen-edit {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
     }
 
-    .btn-save {
+    /* ── Account Security Card ── */
+    .profile-card.sec-full-card {
+        padding: 18px 16px;
+        border-radius: 16px;
+    }
+
+    .sec-card-header {
+        margin-bottom: 16px;
+        padding-bottom: 14px;
+    }
+
+    .sec-title-row {
+        gap: 12px;
+    }
+
+    .sec-clean-ico {
+        font-size: 22px;
+        color: #a855f7;
+    }
+
+    .sec-title-row h3 {
+        font-size: 16px;
+    }
+
+    .sec-title-row p {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    /* ── Mobile Layout for Security Items ── */
+    .security-list {
+        gap: 10px;
+    }
+
+    .sec-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 9px;
+        padding: 13px 14px;
+        border-radius: 12px;
+    }
+
+    .sec-meta {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.78);
         width: 100%;
+    }
+
+    .sec-meta i {
+        width: 16px;
+        text-align: center;
+        color: #a855f7;
+        font-size: 13.5px;
+    }
+
+    /* Action wrap: spans full width with dedicated clean background */
+    .sec-action-wrap {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.035);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        padding: 8px 12px;
+        box-sizing: border-box;
+    }
+
+    .sec-value.email-value {
+        font-size: 13px;
+        font-weight: 600;
+        word-break: break-all;
+        min-width: 0;
+        flex: 1;
+    }
+
+    .btn-sec-action {
+        flex-shrink: 0;
+        padding: 6px 12px;
+        font-size: 12px;
+        white-space: nowrap;
+        border-radius: 8px;
+    }
+
+    .btn-sec-action.primary {
+        background: transparent;
+        border: 1px solid rgba(168, 85, 247, 0.45);
+        color: #c084fc;
+    }
+
+    /* Items without separate action box (Status, Created, Session) */
+    .sec-item > .status-pill {
+        align-self: flex-start;
+        margin-left: 25px;
+    }
+
+    .sec-item > .sec-value:not(.email-value) {
+        align-self: flex-start;
+        margin-left: 25px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    /* Password Expand Form */
+    .pwd-expand-form {
+        padding: 16px 14px;
+        border-radius: 12px;
+    }
+
+    .pwd-fields-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .pwd-form-actions {
+        flex-direction: column-reverse;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .btn-cancel-pwd,
+    .btn-update-pwd {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 420px) {
     .main-content {
-        padding: 14px 12px calc(88px + env(safe-area-inset-bottom, 0px)) 12px !important;
+        padding: 12px 10px calc(92px + env(safe-area-inset-bottom, 0px)) 10px !important;
     }
 
-    .main-content .header {
-        padding-left: 0;
+    .profile-hero {
+        padding: 15px 12px;
     }
 
-    .page-title {
-        font-size: 19px;
+    .hero-left-wrap {
+        gap: 12px;
+    }
+
+    .user-avatar-wrap {
+        width: 64px;
+        height: 64px;
+        flex-shrink: 0;
+    }
+
+    .user-avatar-letter {
+        font-size: 26px;
+    }
+
+    .user-name-row h2 {
+        font-size: 18px;
+    }
+
+    .btn-pen-edit {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+    }
+
+    .avatar-btns-row {
+        gap: 6px;
+    }
+
+    .btn-avatar-action {
+        padding: 5px 10px;
+        font-size: 11px;
+        gap: 5px;
+    }
+
+    .sec-item {
+        padding: 11px 12px;
+    }
+
+    .sec-action-wrap {
+        padding: 7px 10px;
+    }
+
+    .sec-value.email-value {
+        font-size: 12.5px;
+    }
+
+    .btn-sec-action {
+        padding: 5px 10px;
+        font-size: 11.5px;
     }
 }

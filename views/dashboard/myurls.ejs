@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <title>My URLs | ShortURL</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -12,7 +13,7 @@
     <link rel="stylesheet" href="/css/myurls.css">
 </head>
 <body>
-
+<%- include("../partials/preloader") %>
 <%- include("../partials/sidebar") %>
 
 <main class="main-content">
@@ -50,31 +51,34 @@
                 <% if(urls && urls.length > 0){ %>
                     <% urls.forEach(url => { %>
                     <tr>
-                        <td>
+                        <td class="col-short">
                             <a href="/<%= url.shortUrl %>" target="_blank" class="short-url-link">
                                 <i class="fas fa-link"></i> <%= url.shortUrl %>
                             </a>
-                        </td>
-
-                        <td>
-                            <span class="original-url-text" title="<%= url.originalUrl %>">
-                                <%= url.originalUrl %>
-                            </span>
-                        </td>
-
-                        <td>
-                            <span class="clicks-badge">
+                            <span class="mobile-clicks-inline">
                                 <i class="fas fa-mouse-pointer"></i> <%= url.clicks %>
                             </span>
                         </td>
 
-                        <td>
+                        <td class="col-dest">
+                            <a href="<%= url.originalUrl %>" target="_blank" class="original-url-text" title="<%= url.originalUrl %>">
+                                <i class="fas fa-arrow-turn-down-right ext-ico"></i><span class="url-str"><%= url.originalUrl %></span>
+                            </a>
+                        </td>
+
+                        <td class="col-clicks desktop-only-col">
+                            <span class="clicks-badge">
+                                <i class="fas fa-mouse-pointer"></i> <%= url.clicks %> <span class="clicks-label">clicks</span>
+                            </span>
+                        </td>
+
+                        <td class="col-date desktop-only-col">
                             <span class="created-date-text">
                                 <i class="fas fa-calendar-alt"></i> <%= new Date(url.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
                             </span>
                         </td>
 
-                        <td>
+                        <td class="col-actions">
                             <div class="actions-cell">
                                 <button
                                     class="action-btn copy"
@@ -101,7 +105,7 @@
                     </tr>
                     <% }) %>
                 <% } else { %>
-                    <tr>
+                    <tr class="empty-row">
                         <td colspan="5" class="empty-cell">
                             <i class="fas fa-inbox"></i>
                             <p>No shortened URLs created yet.</p>
