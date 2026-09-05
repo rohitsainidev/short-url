@@ -1,10 +1,18 @@
 <!-- ========================================================
-     CLEAN MINIMAL SPINNER PRELOADER
+     SIMPLE & PROFESSIONAL PRELOADER
      ======================================================== -->
 <link rel="stylesheet" href="/css/preloader.css">
 
 <div id="page-preloader" aria-label="Loading page...">
     <div class="preloader-content">
+        <!-- Clean Brand Identity -->
+        <div class="preloader-logo">
+            <div class="preloader-icon">
+                <i class="fas fa-link"></i>
+            </div>
+            <div class="preloader-brand-text">Short<span>URL</span></div>
+        </div>
+
         <!-- Modern Sleek Spinner -->
         <div class="preloader-spinner-wrap">
             <div class="preloader-spinner"></div>
@@ -24,7 +32,7 @@
             preloader.classList.add('preloader-fade-out');
             setTimeout(function () {
                 preloader.classList.add('preloader-hidden');
-            }, 300);
+            }, 320);
         }
 
         if (document.readyState === 'complete') {
@@ -35,7 +43,7 @@
             });
         }
 
-        // Safety fallback
+        // Safety fallback (never stays more than 2 seconds)
         setTimeout(dismissPreloader, 2000);
     })();
 </script>

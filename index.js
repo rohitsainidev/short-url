@@ -31,6 +31,9 @@ const User = require("./models/user");
 // ======================================================
 const app = express();
 
+// Trust reverse proxy (Render, AWS, Heroku) for HTTPS detection & OAuth callbacks
+app.set("trust proxy", 1);
+
 // Render provides PORT automatically.
 // Locally it will use 8001.
 const PORT = process.env.PORT || 8001;
