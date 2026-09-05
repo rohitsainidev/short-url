@@ -118,8 +118,8 @@
 
 .terminal-title {
     font-size: 12.5px;
-    font-family: 'Courier New', Courier, monospace;
-    color: rgba(255, 255, 255, 0.6);
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Menlo, monospace;
+    color: rgba(255, 255, 255, 0.7);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -160,36 +160,39 @@
 }
 
 .terminal-body {
-    padding: 24px 22px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 13px;
-    line-height: 1.9;
-    background: rgba(6, 5, 16, 0.7);
+    padding: 22px 20px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Menlo, monospace;
+    font-size: 12.5px;
+    letter-spacing: -0.2px;
+    line-height: 1.85;
+    background: rgba(6, 5, 16, 0.85);
     flex: 1;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .code-row {
     display: flex;
     align-items: baseline;
-    gap: 16px;
+    gap: 12px;
     white-space: nowrap;
 }
 
 .line-num {
     color: rgba(255, 255, 255, 0.22);
-    font-size: 11.5px;
+    font-size: 11px;
     user-select: none;
     width: 18px;
     text-align: right;
     flex-shrink: 0;
+    font-weight: 500;
 }
 
-.code-comment { color: rgba(255, 255, 255, 0.35); font-style: italic; }
+.code-comment { color: #64748b; font-style: italic; }
 .code-keyword { color: #f472b6; font-weight: 600; }
-.code-var { color: #60a5fa; }
+.code-var { color: #60a5fa; font-weight: 500; }
 .code-func { color: #c084fc; font-weight: 600; }
-.code-num { color: #fbbf24; }
+.code-num { color: #fbbf24; font-weight: 600; }
 
 /* Metrics Grid Inside Terminal */
 .terminal-metrics {
@@ -456,16 +459,23 @@
     }
 
     .terminal-header {
-        padding: 12px 14px;
+        padding: 11px 14px;
     }
 
     .terminal-body {
-        padding: 18px 14px;
-        font-size: 12px;
+        padding: 16px 12px;
+        font-size: 11px;
+        line-height: 1.8;
+        letter-spacing: -0.25px;
     }
 
-    .terminal-metrics {
-        padding: 12px 14px;
+    .code-row {
+        gap: 9px;
+    }
+
+    .line-num {
+        font-size: 10px;
+        width: 15px;
     }
 
     .about-feat-item {
