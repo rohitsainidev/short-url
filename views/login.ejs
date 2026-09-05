@@ -197,22 +197,27 @@
 
         /* Google */
         .btn-google {
-            width: 100%; height: 42px;
-            border: 1.5px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            background: rgba(255,255,255,0.03);
-            color: rgba(255,255,255,0.7);
-            font-size: 13.5px; font-weight: 500;
+            width: 100%; height: 46px;
+            border: none;
+            border-radius: 12px;
+            background: #ffffff;
+            color: #1e293b;
+            font-size: 14.5px; font-weight: 600;
             cursor: pointer; display: flex; align-items: center;
             justify-content: center; gap: 10px;
             text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-google:hover {
-            border-color: rgba(168,85,247,0.45);
-            background: rgba(168,85,247,0.08);
-            color: #ffffff; transform: translateY(-1px);
-            box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+            background: #f8fafc;
+            color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.18), 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .btn-google:active {
+            transform: translateY(0);
+            background: #e2e8f0;
         }
 
         /* Sign up */
@@ -539,94 +544,115 @@
             z-index: 3;
         }
 
-        /* ─── RESPONSIVE: ZERO SCROLLING ON MOBILE ─── */
+        /* ─── RESPONSIVE: BALANCED MOBILE VIEW ─── */
         @media (max-width: 900px) {
             html, body {
-                overflow: hidden !important;
-                height: 100% !important;
-                height: 100dvh !important;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
+                min-height: 100% !important;
+                min-height: 100dvh !important;
+                height: auto !important;
             }
             .page {
-                height: 100% !important;
-                height: 100dvh !important;
-                overflow: hidden !important;
+                min-height: 100vh !important;
+                min-height: 100dvh !important;
+                height: auto !important;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
             .image-panel { display: none !important; }
             .divider-line { display: none !important; }
             .form-panel {
                 width: 100% !important;
-                height: 100% !important;
-                height: 100dvh !important;
-                padding: 12px 20px !important;
-                overflow: hidden !important;
+                min-height: 100vh !important;
+                min-height: 100dvh !important;
+                height: auto !important;
+                padding: 42px 24px 38px !important;
+                overflow: visible !important;
                 display: flex !important;
+                flex-direction: column !important;
                 align-items: center !important;
                 justify-content: center !important;
             }
             .form-inner {
-                max-width: 330px !important;
+                max-width: 380px !important;
                 width: 100% !important;
+                margin: auto 0 !important;
             }
             .logo {
-                margin-bottom: 12px !important;
+                margin-bottom: 22px !important;
             }
             .logo-icon {
-                width: 30px !important;
-                height: 30px !important;
-                font-size: 13px !important;
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 15px !important;
+                border-radius: 10px !important;
             }
             .logo-text {
-                font-size: 17px !important;
+                font-size: 20px !important;
             }
             .title {
-                margin-bottom: 12px !important;
+                margin-bottom: 22px !important;
             }
             .title h1 {
-                font-size: 20px !important;
-                margin-bottom: 2px !important;
+                font-size: 25px !important;
+                margin-bottom: 5px !important;
             }
             .title p {
-                font-size: 11.5px !important;
+                font-size: 13.5px !important;
             }
             .form-group {
-                margin-bottom: 8px !important;
+                margin-bottom: 15px !important;
             }
             .form-group label {
-                font-size: 10.5px !important;
-                margin-bottom: 3px !important;
+                font-size: 12px !important;
+                margin-bottom: 6px !important;
             }
             .input-wrap input {
-                height: 38px !important;
-                font-size: 12.5px !important;
-                padding: 0 12px 0 36px !important;
+                height: 46px !important;
+                font-size: 14px !important;
+                border-radius: 11px !important;
+                padding: 0 14px 0 40px !important;
             }
             .input-wrap i.ico {
-                font-size: 12px !important;
-                left: 12px !important;
+                font-size: 13px !important;
+                left: 14px !important;
             }
             .options {
-                margin: 7px 0 12px !important;
+                margin: 14px 0 18px !important;
             }
             .remember span {
-                font-size: 11px !important;
-            }
-            .forgot {
-                font-size: 11px !important;
-            }
-            .btn-signin {
-                height: 38px !important;
-                font-size: 13px !important;
-            }
-            .divider {
-                margin: 9px 0 !important;
-            }
-            .btn-google {
-                height: 35px !important;
                 font-size: 12px !important;
             }
+            .forgot {
+                font-size: 12px !important;
+            }
+            .btn-signin {
+                height: 46px !important;
+                font-size: 15px !important;
+                border-radius: 11px !important;
+            }
+            .divider {
+                margin: 16px 0 !important;
+            }
+            .divider span {
+                font-size: 11px !important;
+            }
+            .btn-google {
+                height: 46px !important;
+                font-size: 14px !important;
+                border-radius: 11px !important;
+                font-weight: 600 !important;
+                background: #ffffff !important;
+                color: #1e293b !important;
+                box-shadow: 0 4px 18px rgba(0,0,0,0.3) !important;
+            }
             .signup-row {
-                margin-top: 9px !important;
-                font-size: 11.5px !important;
+                margin-top: 18px !important;
+                font-size: 13px !important;
             }
         }
     </style>
