@@ -21,44 +21,36 @@
             <div class="about-terminal-card">
                 <!-- Architecture Terminal Header -->
                 <div class="terminal-header">
-                    <div class="terminal-dots">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
                     <div class="terminal-title">
-                        <i class="fas fa-code"></i> shorturl-engine.js
+                        <i class="fas fa-file-code"></i> shorturl-engine.js
                     </div>
-                    <span class="terminal-badge">
-                        <span class="pulse-live-dot"></span> LIVE
-                    </span>
                 </div>
 
                 <!-- Code Block with Line Numbers -->
                 <div class="terminal-body">
                     <div class="code-row">
                         <span class="line-num">01</span>
-                        <span class="code-comment">// 1. Generate 5-char short id</span>
+                        <span class="code-line"><span class="code-comment">// 1. Generate 5-char short id</span></span>
                     </div>
                     <div class="code-row">
                         <span class="line-num">02</span>
-                        <span class="code-keyword">const</span> <span class="code-var">shortId</span> = <span class="code-func">nanoid</span>(<span class="code-num">5</span>);
+                        <span class="code-line"><span class="code-keyword">const</span> <span class="code-var">shortId</span> = <span class="code-func">nanoid</span>(<span class="code-num">5</span>);</span>
                     </div>
                     <div class="code-row">
                         <span class="line-num">03</span>
-                        <span class="code-comment">// 2. Fast MongoDB indexing</span>
+                        <span class="code-line"><span class="code-comment">// 2. Fast MongoDB indexing</span></span>
                     </div>
                     <div class="code-row">
                         <span class="line-num">04</span>
-                        <span class="code-keyword">await</span> <span class="code-var">Url</span>.<span class="code-func">create</span>({ originalUrl, <span class="code-var">shortUrl</span> });
+                        <span class="code-line"><span class="code-keyword">await</span> <span class="code-var">Url</span>.<span class="code-func">create</span>({ originalUrl, <span class="code-var">shortUrl</span> });</span>
                     </div>
                     <div class="code-row">
                         <span class="line-num">05</span>
-                        <span class="code-comment">// 3. Sub-40ms 302 redirect</span>
+                        <span class="code-line"><span class="code-comment">// 3. Sub-40ms 302 redirect</span></span>
                     </div>
                     <div class="code-row">
                         <span class="line-num">06</span>
-                        <span class="code-keyword">return</span> <span class="code-var">res</span>.<span class="code-func">redirect</span>(entry.originalUrl);
+                        <span class="code-line"><span class="code-keyword">return</span> <span class="code-var">res</span>.<span class="code-func">redirect</span>(entry.originalUrl);</span>
                     </div>
                 </div>
             </div>
